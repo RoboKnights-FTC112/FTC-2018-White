@@ -57,8 +57,8 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwareK9bot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Austin's Robot", group="Teleop")
-
+@TeleOp(name="K9bot: Telop Tank", group="K9bot")
+@Disabled
 public class AustinsRobot extends LinearOpMode {
 
     /* Declare OpMode members. */
