@@ -55,20 +55,29 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  */
 
 @TeleOp(name="K9bot: Telop Tank", group="K9bot")
-@Disabled
+
 public class SeniorsRobot extends LinearOpMode {
 
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
+    public DcMotor armMotor = null;
+    public DcMotor beltMotor = null;
 
     @Override
     public void runOpMode() {
         double left = 0;
         double right = 0;
-        leftMotor   = hardwareMap.dcMotor.get("left_drive");
-        rightMotor  = hardwareMap.dcMotor.get("right_drive");
+
+        boolean dpadUp;
+        boolean dpadDown;
+        boolean dpadLeft;
+        boolean dpadRight;
+        leftMotor   = hardwareMap.dcMotor.get("leftdrive");
+        rightMotor  = hardwareMap.dcMotor.get("rightdrive");
+        armMotor = hardwareMap.dcMotor.get("armmotor");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        beltMotor = hardwareMap.dcMotor.get("arm1motor");
 
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
@@ -80,10 +89,47 @@ public class SeniorsRobot extends LinearOpMode {
         while (opModeIsActive()) {
 
             // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-            left = -gamepad1.left_stick_y;
-            right = -gamepad1.right_stick_y;
-            leftMotor.setPower(left);
-            rightMotor.setPower(right);
+            if (gamepad1.a == true){
+                leftMotor.setPower(.5);
+                rightMotor.setPower(.5);
+            } else if (gamepad1.y == true){
+                leftMotor.setPower(-.5);
+                rightMotor.setPower(-.5);
+            }  else if (gamepad1.right_bumper == true){
+                leftMotor.setPower(.5);
+                rightMotor.setPower(-.5);
+            } else if (gamepad1.left_bumper == true){
+                leftMotor.setPower(-.5);
+                rightMotor.setPower(.5);
+            } else {
+                left = -gamepad1.left_stick_y;
+                right = -gamepad1.right_stick_y;
+                leftMotor.setPower(left);
+                rightMotor.setPower(right);
+            }
+
+            double liftSpeed = .05;
+
+           // boolean dpadup = gamepad2.dpad_up;
+
+            if (gamepad2.dpad_down == true){
+                armMotor.setPower(-liftSpeed);
+            } else if (gamepad2.dpad_up == true){
+                armMotor.setPower(liftSpeed);
+            } else if (gamepad2.dpad_left == true) {
+                beltMotor.setPower(liftSpeed);
+            }
+            else if (gamepad2.dpad_right == true) {
+                beltMotor.setPower(-1.0 * liftSpeed);
+
+            }
+            else{
+                armMotor.setPower(0);
+                beltMotor.setPower(0);
+            }
+
+            //double spinSpeed = .25;
+
         }
     }
 }
