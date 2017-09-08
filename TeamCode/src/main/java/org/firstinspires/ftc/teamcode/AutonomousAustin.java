@@ -32,13 +32,13 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwareK9bot;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 /**
  * This OpMode uses the common HardwareK9bot class to define the devices on the robot.
@@ -57,21 +57,25 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwareK9bot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="K9bot: Telop Tank", group="K9bot")
-public class AustinsRobot extends LinearOpMode {
+@Autonomous(name="K9bot: Telop Tank", group="K9bot")
+public class AutonomousAustin extends LinearOpMode {
 
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
+    OpticalDistanceSensor odsSensor;
+   //public ColorSensor colorSensor = null;
 
     @Override
     public void runOpMode() {
-        double leftup = 0;
-        double rightup = 0;
-        double triggera = 0;
-        double triggerb = 0;
+        double left = 0;
+        double right = 0;
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
+        odsSensor = hardwareMap.opticalDistanceSensor.get("sensor_ods");
+
+
+
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Say", "Hello Driver");    //
@@ -80,28 +84,17 @@ public class AustinsRobot extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-            // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-            leftup = -gamepad1.left_stick_y;
-            rightup = -gamepad1.right_stick_y;
-            triggera = gamepad1.right_trigger;
-            triggerb = gamepad1.left_trigger;
+        //leftMotor.setPower(left);
+        //rightMotor.setPower(right);
 
-            while (triggera > 0 && triggerb > 0) {
-                leftMotor.setPower(-triggerb);
-                rightMotor.setPower(triggera);
-            }
-            while (triggera > 0) {
-                leftMotor.setPower(-triggera);
-                rightMotor.setPower(-triggera);
-            }
-            while (triggerb > 0) {
-                leftMotor.setPower(triggerb);
-                rightMotor.setPower(triggerb);
-            }
-            leftMotor.setPower(leftup);
-            rightMotor.setPower(rightup);
+        while (opModeIsActive()) {
+
+            // send the info back to driver station using telemetry function.
+            telemetry.addData("Raw",    odsSensor.getRawLightDetected());
+            telemetry.addData("Normal", odsSensor.getLightDetected());
+
+            telemetry.update();
+        }
+
         }
     }
-}
