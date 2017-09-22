@@ -54,7 +54,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="K9bot: Telop Tank", group="K9bot")
+@Autonomous(name="Autonomous Test", group="Seniors")
 
 public class SeniorsAutonomousTest extends LinearOpMode {
 
@@ -87,9 +87,9 @@ public class SeniorsAutonomousTest extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            leftMotor.setPower(.5);
-            rightMotor.setPower(.5);
-            sleep(500);
+            leftMotor.setPower(.3);
+            rightMotor.setPower(.3);
+            sleep(300);
 
         }
 

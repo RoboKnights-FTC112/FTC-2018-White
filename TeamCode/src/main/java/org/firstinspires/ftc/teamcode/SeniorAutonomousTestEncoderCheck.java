@@ -32,9 +32,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
@@ -54,10 +53,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Senior drive", group="Senior")
+@Autonomous(name="Autonomous Test2", group="Seniors")
 
-public class SeniorsRobot extends LinearOpMode {
-
+public class SeniorAutonomousTestEncoderCheck extends LinearOpMode {
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
@@ -88,48 +86,10 @@ public class SeniorsRobot extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-            if (gamepad1.a == true){
-                leftMotor.setPower(.5);
-                rightMotor.setPower(.5);
-            } else if (gamepad1.y == true){
-                leftMotor.setPower(-.5);
-                rightMotor.setPower(-.5);
-            }  else if (gamepad1.right_bumper == true){
-                leftMotor.setPower(.5);
-                rightMotor.setPower(-.5);
-            } else if (gamepad1.left_bumper == true){
-                leftMotor.setPower(-.5);
-                rightMotor.setPower(.5);
-            } else {
-                left = -gamepad1.left_stick_y;
-                right = -gamepad1.right_stick_y;
-                leftMotor.setPower(left);
-                rightMotor.setPower(right);
-            }
-
-            double liftSpeed = .05;
-
-           // boolean dpadup = gamepad2.dpad_up;
-
-            if (gamepad2.dpad_down == true){
-                armMotor.setPower(-liftSpeed);
-            } else if (gamepad2.dpad_up == true){
-                armMotor.setPower(liftSpeed);
-            } else if (gamepad2.dpad_left == true) {
-                beltMotor.setPower(liftSpeed);
-            }
-            else if (gamepad2.dpad_right == true) {
-                beltMotor.setPower(-1.0 * liftSpeed);
-
-            }
-            else{
-                armMotor.setPower(0);
-                beltMotor.setPower(0);
-            }
-
-            //double spinSpeed = .25;
 
         }
+
     }
+
+
 }
