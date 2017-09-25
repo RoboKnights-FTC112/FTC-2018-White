@@ -85,11 +85,34 @@ public class SeniorAutonomousTestEncoderCheck extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
+            driveDistance(.5, 100);
 
         }
 
     }
 
+    public void driveDistance(double speed, int targetEncoderValue){
+        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        leftMotor.setTargetPosition(targetEncoderValue);
+        rightMotor.setTargetPosition(targetEncoderValue);
+
+        leftMotor.setPower(speed);
+        rightMotor.setPower(speed);
+
+        while (leftMotor.isBusy() || rightMotor.isBusy()){
+            //do anything
+            //we could spit out some telemetry about the encoder value
+        }
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
+
+        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
 
 }
