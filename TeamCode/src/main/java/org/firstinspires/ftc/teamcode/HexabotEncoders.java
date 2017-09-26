@@ -34,6 +34,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
@@ -53,15 +54,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous Test Reverse", group="Seniors")
+@Autonomous(name="Hexabot drive", group="Senior")
 
-public class SeniorsAutonomousTestReverse extends LinearOpMode {
+public class HexabotEncoders extends LinearOpMode {
 
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
-    public DcMotor armMotor = null;
-    public DcMotor beltMotor = null;
 
     @Override
     public void runOpMode() {
@@ -74,9 +73,8 @@ public class SeniorsAutonomousTestReverse extends LinearOpMode {
         boolean dpadRight;
         leftMotor   = hardwareMap.dcMotor.get("leftdrive");
         rightMotor  = hardwareMap.dcMotor.get("rightdrive");
-        armMotor = hardwareMap.dcMotor.get("armmotor");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        beltMotor = hardwareMap.dcMotor.get("arm1motor");
+
 
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
@@ -86,13 +84,35 @@ public class SeniorsAutonomousTestReverse extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            leftMotor.setPower(-.3);
-            rightMotor.setPower(-.3);
-            sleep(300);
+
+            // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
+            if (gamepad1.a == true){
+                leftMotor.setPower(.5);
+                rightMotor.setPower(.5);
+            } else if (gamepad1.y == true){
+                leftMotor.setPower(-.5);
+                rightMotor.setPower(-.5);
+            }  else if (gamepad1.right_bumper == true){
+                leftMotor.setPower(.5);
+                rightMotor.setPower(-.5);
+            } else if (gamepad1.left_bumper == true){
+                leftMotor.setPower(-.5);
+                rightMotor.setPower(.5);
+            } else {
+                left = gamepad1.left_stick_y;
+                right = gamepad1.right_stick_y;
+                leftMotor.setPower(left);
+                rightMotor.setPower(right);
+            }
+
+
+
+           // boolean dpadup = gamepad2.dpad_up;
+
+
+
+            //double spinSpeed = .25;
 
         }
-
     }
-
-
 }

@@ -54,20 +54,22 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Will Drive", group="Will")
-@Disabled
+@TeleOp(name="Wills Bot", group="K9bot")
 public class WillsRobot extends LinearOpMode {
 
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
+    public DcMotor  armMotor  = null;
 
     @Override
     public void runOpMode() {
         double left = 0;
         double right = 0;
+        double arm = 0;
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
+        armMotor = hardwareMap.dcMotor.get("arm_motor");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Say", "Hello Driver");    //
@@ -82,8 +84,11 @@ public class WillsRobot extends LinearOpMode {
             // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
             left = -gamepad1.left_stick_y;
             right = -gamepad1.right_stick_y;
+            arm = -gamepad2.right_stick_y;
             leftMotor.setPower(left);
             rightMotor.setPower(right);
+            armMotor.setPower(arm);
+
         }
     }
 }

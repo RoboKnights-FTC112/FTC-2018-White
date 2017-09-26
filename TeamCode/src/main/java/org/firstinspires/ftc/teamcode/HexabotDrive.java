@@ -32,8 +32,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
@@ -53,15 +53,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous Test Reverse", group="Seniors")
+@TeleOp(name="Hexabot encoder", group="Senior")
 
-public class SeniorsAutonomousTestReverse extends LinearOpMode {
+public class HexabotDrive extends LinearOpMode {
 
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
-    public DcMotor armMotor = null;
-    public DcMotor beltMotor = null;
 
     @Override
     public void runOpMode() {
@@ -74,9 +72,8 @@ public class SeniorsAutonomousTestReverse extends LinearOpMode {
         boolean dpadRight;
         leftMotor   = hardwareMap.dcMotor.get("leftdrive");
         rightMotor  = hardwareMap.dcMotor.get("rightdrive");
-        armMotor = hardwareMap.dcMotor.get("armmotor");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        beltMotor = hardwareMap.dcMotor.get("arm1motor");
+
 
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
@@ -85,14 +82,41 @@ public class SeniorsAutonomousTestReverse extends LinearOpMode {
         waitForStart();
 
         // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-            leftMotor.setPower(-.3);
-            rightMotor.setPower(-.3);
-            sleep(300);
-
+        if (opModeIsActive()) {
+            driveDistance(.5, 1100);
         }
 
+
+
+           // boolean dpadup = gamepad2.dpad_up;
+
+
+
+            //double spinSpeed = .25;
+
+        }
+    public void driveDistance(double speed, int targetEncoderValue){
+        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        leftMotor.setTargetPosition(targetEncoderValue);
+        rightMotor.setTargetPosition(targetEncoderValue);
+
+        leftMotor.setPower(speed);
+        rightMotor.setPower(speed);
+
+        while (leftMotor.isBusy() || rightMotor.isBusy()){
+            //do anything
+            //we could spit out some telemetry about the encoder value
+        }
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
+
+        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
     }
 
-
-}
