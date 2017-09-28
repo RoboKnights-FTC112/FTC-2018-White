@@ -62,7 +62,7 @@ public class SeniorsRobot extends LinearOpMode {
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
     public DcMotor armMotor = null;
-    public DcMotor beltMotor = null;
+    //public DcMotor beltMotor = null;
 
     @Override
     public void runOpMode() {
@@ -77,7 +77,7 @@ public class SeniorsRobot extends LinearOpMode {
         rightMotor  = hardwareMap.dcMotor.get("rightdrive");
         armMotor = hardwareMap.dcMotor.get("armmotor");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        beltMotor = hardwareMap.dcMotor.get("arm1motor");
+        //beltMotor = hardwareMap.dcMotor.get("arm1motor");
 
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
@@ -114,22 +114,23 @@ public class SeniorsRobot extends LinearOpMode {
 
             if (gamepad2.dpad_down == true){
                 armMotor.setPower(-liftSpeed);
-            } else if (gamepad2.dpad_up == true){
+            } else if (gamepad2.dpad_up == true) {
                 armMotor.setPower(liftSpeed);
-            } else if (gamepad2.dpad_left == true) {
+            }/*  else if (gamepad2.dpad_left == true) {
                 beltMotor.setPower(liftSpeed);
             }
             else if (gamepad2.dpad_right == true) {
                 beltMotor.setPower(-1.0 * liftSpeed);
 
-            }
+            }*/
             else{
                 armMotor.setPower(0);
-                beltMotor.setPower(0);
+             //   beltMotor.setPower(0);
             }
 
             //double spinSpeed = .25;
 
         }
     }
+
 }
