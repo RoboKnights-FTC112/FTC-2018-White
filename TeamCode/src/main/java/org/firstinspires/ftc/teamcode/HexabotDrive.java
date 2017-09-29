@@ -53,7 +53,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Hexabot encoder", group="Senior")
+@TeleOp(name="Hexabot drive", group="Senior")
 
 public class HexabotDrive extends LinearOpMode {
 

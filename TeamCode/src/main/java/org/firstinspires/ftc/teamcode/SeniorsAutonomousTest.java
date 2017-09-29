@@ -61,8 +61,8 @@ public class SeniorsAutonomousTest extends LinearOpMode {
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
-    public DcMotor armMotor = null;
-    public DcMotor beltMotor = null;
+    //public DcMotor armMotor = null;
+    //public DcMotor beltMotor = null;
 
     @Override
     public void runOpMode() {
@@ -75,9 +75,9 @@ public class SeniorsAutonomousTest extends LinearOpMode {
         boolean dpadRight;
         leftMotor   = hardwareMap.dcMotor.get("leftdrive");
         rightMotor  = hardwareMap.dcMotor.get("rightdrive");
-        armMotor = hardwareMap.dcMotor.get("armmotor");
+        //armMotor = hardwareMap.dcMotor.get("armmotor");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        beltMotor = hardwareMap.dcMotor.get("arm1motor");
+        //beltMotor = hardwareMap.dcMotor.get("arm1motor");
 
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();

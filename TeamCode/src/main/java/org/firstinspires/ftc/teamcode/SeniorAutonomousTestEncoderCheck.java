@@ -35,6 +35,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This OpMode uses the common HardwareK9bot class to define the devices on the robot.
@@ -53,14 +54,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous Test2", group="Seniors")
+@Autonomous(name="Autonomous Test Encders ", group="Seniors")
 
 public class SeniorAutonomousTestEncoderCheck extends LinearOpMode {
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
     public DcMotor armMotor = null;
-    public DcMotor beltMotor = null;
+    //public DcMotor beltMotor = null;
 
     @Override
     public void runOpMode() {
@@ -75,7 +76,7 @@ public class SeniorAutonomousTestEncoderCheck extends LinearOpMode {
         rightMotor  = hardwareMap.dcMotor.get("rightdrive");
         armMotor = hardwareMap.dcMotor.get("armmotor");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        beltMotor = hardwareMap.dcMotor.get("arm1motor");
+       // beltMotor = hardwareMap.dcMotor.get("arm1motor");
 
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
@@ -84,8 +85,9 @@ public class SeniorAutonomousTestEncoderCheck extends LinearOpMode {
         waitForStart();
 
         // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-            driveDistance(.5, 100);
+        if (opModeIsActive()) {
+            drive2Seconds();
+            driveDistance(.25, 1000);
 
         }
 
@@ -95,24 +97,51 @@ public class SeniorAutonomousTestEncoderCheck extends LinearOpMode {
         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         leftMotor.setTargetPosition(targetEncoderValue);
         rightMotor.setTargetPosition(targetEncoderValue);
+
+        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         leftMotor.setPower(speed);
         rightMotor.setPower(speed);
 
-        while (leftMotor.isBusy() || rightMotor.isBusy()){
+
+        while ((leftMotor.isBusy() || rightMotor.isBusy()) && opModeIsActive()){
+            telemetry.addData("Left Loop Current", leftMotor.getCurrentPosition());
+            telemetry.addData("Left Loop Target", leftMotor.getTargetPosition());
+            telemetry.addData("Right Loop Current", rightMotor.getCurrentPosition());
+            telemetry.addData("Right Loop Target", rightMotor.getTargetPosition());  //
+            telemetry.update();
+            telemetry.addData("4th", "Hello Driver");    //
+            telemetry.update();
+
             //do anything
             //we could spit out some telemetry about the encoder value
         }
+        telemetry.addData("5th", "Hello Driver");    //
+        telemetry.update();
+
         leftMotor.setPower(0);
         rightMotor.setPower(0);
+        telemetry.addData("6th", "Hello Driver");    //
+        telemetry.update();
 
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void drive2Seconds(){
+        ElapsedTime runtime = new ElapsedTime();
+        runtime.reset();
+        rightMotor.setPower(.25);
+        leftMotor.setPower(.25);
+        while (runtime.seconds() < 2){
+
+        }
+        rightMotor.setPower(0);
+        leftMotor.setPower(0);
+
     }
 
 }
