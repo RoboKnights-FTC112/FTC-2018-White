@@ -32,7 +32,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -54,22 +53,27 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Hexabot", group="K9bot")
-public class HexabotDrive extends LinearOpMode {
+@TeleOp(name="Senior TriBot Drive", group="Senior")
+
+public class SeniorstriangleRobot extends LinearOpMode {
 
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
-
+    public DcMotor thirdMotor = null;
 
     @Override
     public void runOpMode() {
         double left = 0;
         double right = 0;
 
-        leftMotor   = hardwareMap.dcMotor.get("left_drive");
-        rightMotor  = hardwareMap.dcMotor.get("right_drive");
-
+        boolean dpadUp;
+        boolean dpadDown;
+        boolean dpadLeft;
+        boolean dpadRight;
+        leftMotor   = hardwareMap.dcMotor.get("leftdrive");
+        rightMotor  = hardwareMap.dcMotor.get("rightdrive");
+        thirdMotor = hardwareMap.dcMotor.get("thirddrive");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Say", "Hello Driver");    //
@@ -80,14 +84,76 @@ public class HexabotDrive extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            DriveTriBot();
+            rotateBot();
 
-            // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-            left = -gamepad1.left_stick_y;
-            right = -gamepad1.right_stick_y;
+        }
+    }
 
-            leftMotor.setPower(left);
-            rightMotor.setPower(right);
+    public void DriveTriBot(){
+        double speed = .15;
+        double motor1pow = speed;
+        double motor2pow = speed;
+        double motor3pow = speed * .95;
+        double leftStickx = gamepad1.left_stick_x * speed;
+        double leftSticky = gamepad1.left_stick_y * speed;
+        double m1x = 0;
+        double m1y = 0;
+        double m2x = 0;
+        double m2y = 0;
+        if(leftStickx > 0){
+            m1x = speed - leftStickx;
+            m1y = leftSticky/2;
+            m2x = speed;
+            m2y = m1y;
+            motor3pow = -motor3pow;
+        }
+        else if(leftStickx <0){
+            m2x = speed + leftStickx;
+            m2y = leftSticky/2;
+            m1y = m2y;
+            m1x = speed;
+        }
+        else{
+            motor3pow = 0;
+            if(leftSticky > 0){
+                m1x = 0;
+                m2x = 0;
+                m2y = -speed;
+                m1y = -speed;
+            }  else if(leftSticky < 0){
+                m1x = 0;
+                m2x = 0;
+                m2y = speed;
+                m1y = speed;
+            }
+        }
+    motor1pow = Math.pow((Math.pow(m1x,2) + Math.pow(m1y,2)), .5);
+    motor2pow =  Math.pow((Math.pow(m2x,2) + Math.pow(m2y,2)), .5);
+        if(m1y < 0){
+            motor1pow = -motor1pow;
+            motor2pow = -motor2pow;
+        }
+        leftMotor.setPower(motor1pow);
+        rightMotor.setPower(motor2pow);
+        thirdMotor.setPower(motor3pow);
 
+    }
+    public void rotateBot(){
+
+        double speed = .15;
+        if(gamepad1.left_bumper) {
+            while (gamepad1.left_bumper) {
+                leftMotor.setPower(-speed);
+                rightMotor.setPower(speed);
+                thirdMotor.setPower(speed);
+            }
+        } else if(gamepad1.right_bumper){
+            while(gamepad1.right_bumper) {
+                leftMotor.setPower(speed);
+                rightMotor.setPower(-speed);
+                thirdMotor.setPower(-speed);
+            }
         }
     }
 }
