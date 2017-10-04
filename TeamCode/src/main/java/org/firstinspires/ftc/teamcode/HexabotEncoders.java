@@ -106,9 +106,9 @@ public class HexabotEncoders extends LinearOpMode {
              //       .addData("b", "%02x", Color.blue(color));
             //telemetry.update();
             //sleep(5000);
-            driveDistance(.25,5000);
-
-
+            driveDistance(.25,3850);
+            turnright90(.25);
+            driveDistance(.25,1200);
 
 
 
@@ -131,7 +131,32 @@ public class HexabotEncoders extends LinearOpMode {
             }
             drive(0);
         }
+        public void turnright90 (double speed) {
+           leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+
+            leftMotor.setTargetPosition(2520);
+            leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+             leftMotor.setPower(speed);
+
+
+            while ((leftMotor.isBusy()) && opModeIsActive()){
+
+
+                //do anything
+                //we could spit out some telemetry about the encoder value
+            }
+            telemetry.addData("5th", "Hello Driver");    //
+            telemetry.update();
+
+            leftMotor.setPower(0);
+            rightMotor.setPower(0);
+            telemetry.addData("6th", "Hello Driver");    //
+            telemetry.update();
+
+            leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
         public void drive(double speed){
             if (opModeIsActive()){
                 leftMotor.setPower(speed);
