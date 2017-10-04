@@ -85,6 +85,7 @@ public class SeniorstriangleRobot extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             DriveTriBot();
+            rotateBot();
 
         }
     }
@@ -93,20 +94,21 @@ public class SeniorstriangleRobot extends LinearOpMode {
         double speed = .15;
         double motor1pow = speed;
         double motor2pow = speed;
-        double motor3pow = speed/2;
+        double motor3pow = speed * .95;
         double leftStickx = gamepad1.left_stick_x * speed;
         double leftSticky = gamepad1.left_stick_y * speed;
         double m1x = 0;
         double m1y = 0;
         double m2x = 0;
         double m2y = 0;
-        if(leftStickx < 0){
+        if(leftStickx > 0){
             m1x = speed - leftStickx;
             m1y = leftSticky/2;
             m2x = speed;
             m2y = m1y;
+            motor3pow = -motor3pow;
         }
-        else if(leftStickx >0){
+        else if(leftStickx <0){
             m2x = speed + leftStickx;
             m2y = leftSticky/2;
             m1y = m2y;
@@ -117,13 +119,13 @@ public class SeniorstriangleRobot extends LinearOpMode {
             if(leftSticky > 0){
                 m1x = 0;
                 m2x = 0;
-                m2y = speed;
-                m1y = speed;
+                m2y = -speed;
+                m1y = -speed;
             }  else if(leftSticky < 0){
                 m1x = 0;
                 m2x = 0;
-                m2y = -speed;
-                m1y = -speed;
+                m2y = speed;
+                m1y = speed;
             }
         }
     motor1pow = Math.pow((Math.pow(m1x,2) + Math.pow(m1y,2)), .5);
@@ -136,5 +138,22 @@ public class SeniorstriangleRobot extends LinearOpMode {
         rightMotor.setPower(motor2pow);
         thirdMotor.setPower(motor3pow);
 
+    }
+    public void rotateBot(){
+
+        double speed = .15;
+        if(gamepad1.left_bumper) {
+            while (gamepad1.left_bumper) {
+                leftMotor.setPower(-speed);
+                rightMotor.setPower(speed);
+                thirdMotor.setPower(speed);
+            }
+        } else if(gamepad1.right_bumper){
+            while(gamepad1.right_bumper) {
+                leftMotor.setPower(speed);
+                rightMotor.setPower(-speed);
+                thirdMotor.setPower(-speed);
+            }
+        }
     }
 }

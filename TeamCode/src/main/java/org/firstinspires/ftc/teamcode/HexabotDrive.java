@@ -32,6 +32,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -53,27 +54,23 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Hexabot drive", group="Senior")
-
+@TeleOp(name="Hexabot", group="K9bot")
 public class HexabotDrive extends LinearOpMode {
 
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
 
+
     @Override
     public void runOpMode() {
         double left = 0;
         double right = 0;
 
-        boolean dpadUp;
-        boolean dpadDown;
-        boolean dpadLeft;
-        boolean dpadRight;
-        leftMotor   = hardwareMap.dcMotor.get("leftdrive");
-        rightMotor  = hardwareMap.dcMotor.get("rightdrive");
-        leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftMotor   = hardwareMap.dcMotor.get("left_drive");
+        rightMotor  = hardwareMap.dcMotor.get("right_drive");
 
+        leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
@@ -82,41 +79,15 @@ public class HexabotDrive extends LinearOpMode {
         waitForStart();
 
         // run until the end of the match (driver presses STOP)
-        if (opModeIsActive()) {
-            driveDistance(.5, 1100);
-        }
+        while (opModeIsActive()) {
 
+            // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
+            left = -gamepad1.left_stick_y;
+            right = -gamepad1.right_stick_y;
 
-
-           // boolean dpadup = gamepad2.dpad_up;
-
-
-
-            //double spinSpeed = .25;
+            leftMotor.setPower(left);
+            rightMotor.setPower(right);
 
         }
-    public void driveDistance(double speed, int targetEncoderValue){
-        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        leftMotor.setTargetPosition(targetEncoderValue);
-        rightMotor.setTargetPosition(targetEncoderValue);
-
-        leftMotor.setPower(speed);
-        rightMotor.setPower(speed);
-
-        while (leftMotor.isBusy() || rightMotor.isBusy()){
-            //do anything
-            //we could spit out some telemetry about the encoder value
-        }
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
-
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-    }
-
+}
