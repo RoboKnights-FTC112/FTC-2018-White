@@ -32,13 +32,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-import android.support.annotation.ColorInt;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
@@ -61,9 +56,9 @@ import com.qualcomm.robotcore.hardware.SwitchableLight;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Hexabotbluecorner", group="Senior")
+@Autonomous(name="Hexabotredcorner", group="Senior")
 
-public class HexabotEncoders extends LinearOpMode {
+public class Hexabotredcorner extends LinearOpMode {
 
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
@@ -107,14 +102,39 @@ public class HexabotEncoders extends LinearOpMode {
             //telemetry.update();
             //sleep(5000);
             driveDistance(.25,3850);
-            turnright90(.25);
+            turnleft90(.25);
             driveDistance(.25,1200);
 
 
 
         }
     }
+    public void turnleft90 (double speed) {
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+
+        rightMotor.setTargetPosition(2520);
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        rightMotor.setPower(speed);
+
+
+        while ((rightMotor.isBusy()) && opModeIsActive()){
+
+
+            //do anything
+            //we could spit out some telemetry about the encoder value
+        }
+        telemetry.addData("5th", "Hello Driver");    //
+        telemetry.update();
+
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
+        telemetry.addData("6th", "Hello Driver");    //
+        telemetry.update();
+
+        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
         public void driveUntilGrey(double speed){
             NormalizedRGBA colors = colorSensor.getNormalizedColors();
 

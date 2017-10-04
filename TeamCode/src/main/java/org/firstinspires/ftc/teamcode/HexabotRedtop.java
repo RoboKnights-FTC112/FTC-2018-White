@@ -32,13 +32,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-import android.support.annotation.ColorInt;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
@@ -61,9 +56,9 @@ import com.qualcomm.robotcore.hardware.SwitchableLight;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Hexabotbluecorner", group="Senior")
+@Autonomous(name="Hexabotredtop", group="Senior")
 
-public class HexabotEncoders extends LinearOpMode {
+public class HexabotRedtop extends LinearOpMode {
 
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
@@ -106,9 +101,10 @@ public class HexabotEncoders extends LinearOpMode {
              //       .addData("b", "%02x", Color.blue(color));
             //telemetry.update();
             //sleep(5000);
+            driveDistance(.25,1000);
+            turnleft90(.25);
             driveDistance(.25,3850);
-            turnright90(.25);
-            driveDistance(.25,1200);
+
 
 
 
@@ -131,17 +127,17 @@ public class HexabotEncoders extends LinearOpMode {
             }
             drive(0);
         }
-        public void turnright90 (double speed) {
-           leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        public void turnleft90 (double speed) {
+           rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
-            leftMotor.setTargetPosition(2520);
-            leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightMotor.setTargetPosition(2520);
+            rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-             leftMotor.setPower(speed);
+             rightMotor.setPower(speed);
 
 
-            while ((leftMotor.isBusy()) && opModeIsActive()){
+            while ((rightMotor.isBusy()) && opModeIsActive()){
 
 
                 //do anything
