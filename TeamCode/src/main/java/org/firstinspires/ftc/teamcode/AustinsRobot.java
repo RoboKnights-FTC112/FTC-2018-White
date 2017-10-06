@@ -58,7 +58,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwareK9bot;
  */
 
 @TeleOp(name="Driver", group="Austin")
-@Disabled
+
 public class AustinsRobot extends LinearOpMode {
 
     /* Declare OpMode members. */

@@ -32,13 +32,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-import android.support.annotation.ColorInt;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
@@ -61,9 +56,9 @@ import com.qualcomm.robotcore.hardware.SwitchableLight;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Hexabotbluecorner", group="Senior")
+@Autonomous(name="Hexabotbluetop", group="Senior")
 
-public class HexabotEncoders extends LinearOpMode {
+public class HexabotBluetop extends LinearOpMode {
 
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
@@ -106,9 +101,10 @@ public class HexabotEncoders extends LinearOpMode {
              //       .addData("b", "%02x", Color.blue(color));
             //telemetry.update();
             //sleep(5000);
-            driveDistance(.25,3850);
+            driveDistance(.25,1000);
             turnright90(.25);
-            driveDistance(.25,1200);
+            driveDistance(.25,3850);
+
 
 
 
