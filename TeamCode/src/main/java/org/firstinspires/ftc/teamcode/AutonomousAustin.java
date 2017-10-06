@@ -38,6 +38,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 /**
@@ -63,6 +64,7 @@ public class AutonomousAustin extends LinearOpMode {
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
+    private Servo claw = null;
     OpticalDistanceSensor odsSensor;
    //public ColorSensor colorSensor = null;
 
@@ -74,8 +76,8 @@ public class AutonomousAustin extends LinearOpMode {
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
         odsSensor = hardwareMap.opticalDistanceSensor.get("sensor_ods");
 
-
-
+        claw = hardwareMap.servo.get("servo");
+        claw.setPosition(.5);
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Say", "Hello Driver");    //

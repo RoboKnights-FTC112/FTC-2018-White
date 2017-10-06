@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.SwitchableLight;
 
 /**
@@ -63,24 +64,20 @@ public class HexabotBluetop extends LinearOpMode {
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
-    public NormalizedColorSensor colorSensor = null;
+    public Servo claw = null;
+    //public ColorSensor colorSensor = null;
 
     @Override
     public void runOpMode() {
         double left = 0;
         double right = 0;
+        double clawpo = .5;
+        leftMotor   = hardwareMap.dcMotor.get("left_drive");
+        rightMotor  = hardwareMap.dcMotor.get("right_drive");
 
-        boolean dpadUp;
-        boolean dpadDown;
-        boolean dpadLeft;
-        boolean dpadRight;
-        leftMotor   = hardwareMap.dcMotor.get("leftdrive");
-        rightMotor  = hardwareMap.dcMotor.get("rightdrive");
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);
-
-        colorSensor = hardwareMap.get(NormalizedColorSensor.class, "colorSensor");
-        ((SwitchableLight)colorSensor).enableLight(true);
-
+        claw = hardwareMap.servo.get("servo");
+        claw.setPosition(clawpo);
+        leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
@@ -111,22 +108,8 @@ public class HexabotBluetop extends LinearOpMode {
         }
     }
 
-        public void driveUntilGrey(double speed){
-            NormalizedRGBA colors = colorSensor.getNormalizedColors();
-
-            drive (speed);
-            while (colors.blue > 2 && opModeIsActive()){
-                colors = colorSensor.getNormalizedColors();
-                telemetry.addLine()
-                        .addData("a", "%.3f", colors.alpha)
-                        .addData("r", "%.3f", colors.red)
-                        .addData("g", "%.3f", colors.green)
-                        .addData("b", "%.3f", colors.blue);
 
 
-            }
-            drive(0);
-        }
         public void turnright90 (double speed) {
            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 

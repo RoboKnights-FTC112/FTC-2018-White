@@ -36,6 +36,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * This OpMode uses the common HardwareK9bot class to define the devices on the robot.
@@ -54,22 +56,25 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Hexabot", group="K9bot")
+@TeleOp(name="Hexabot drive", group="K9bot")
 public class HexabotDrive extends LinearOpMode {
 
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
-
+    public Servo claw = null;
+    //public ColorSensor colorSensor = null;
 
     @Override
     public void runOpMode() {
         double left = 0;
         double right = 0;
-
+        double clawpo = .5;
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
 
+        claw = hardwareMap.servo.get("servo");
+        claw.setPosition(clawpo);
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Say", "Hello Driver");    //
@@ -78,15 +83,29 @@ public class HexabotDrive extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        // run until the end of the match (driver presses STOP)
+        //leftMotor.setPower(left);
+        //rightMotor.setPower(right);
+
+
         while (opModeIsActive()) {
 
             // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
             left = -gamepad1.left_stick_y;
             right = -gamepad1.right_stick_y;
 
-            leftMotor.setPower(left);
-            rightMotor.setPower(right);
+            leftMotor.setPower(left*.3);
+            rightMotor.setPower(right*.3);
+            while (gamepad1.a == true && opModeIsActive()) {
+                clawpo+=.05;
+                clawpo = Math.min(1, clawpo);
+                claw.setPosition(clawpo);
+            }
+            while(gamepad1.b == true && opModeIsActive()) {
+                clawpo-= .05;
+                clawpo = Math.max(-1, clawpo);
+                claw.setPosition(clawpo);
+            }
+
 
         }
     }
