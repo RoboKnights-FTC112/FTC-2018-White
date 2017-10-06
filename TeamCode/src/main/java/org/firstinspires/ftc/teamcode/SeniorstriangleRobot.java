@@ -87,60 +87,97 @@ public class SeniorstriangleRobot extends LinearOpMode {
             DriveTriBot();
             rotateBot();
 
+
         }
     }
 
     public void DriveTriBot(){
         double speed = .15;
-        double motor1pow = speed;
-        double motor2pow = speed;
-        double motor3pow = speed * .95;
+        double motor1pow = 0;
+        double motor2pow = 0;
+        double motor3pow = 0;
         double leftStickx = gamepad1.left_stick_x * speed;
         double leftSticky = gamepad1.left_stick_y * speed;
         double m1x = 0;
         double m1y = 0;
         double m2x = 0;
         double m2y = 0;
-        if(leftStickx > 0){
+        double m3x = 0;
+        double m3y = 0;
+        if(leftStickx > 0 && leftSticky ==0 ){
             m1x = speed - leftStickx;
             m1y = leftSticky/2;
-            m2x = speed;
-            m2y = m1y;
-            motor3pow = -motor3pow;
+            m3x = speed;
+            m3y = m1y;
+
         }
-        else if(leftStickx <0){
+        else if(leftStickx <0 && leftSticky ==0){
             m2x = speed + leftStickx;
             m2y = leftSticky/2;
             m1y = m2y;
             m1x = speed;
         }
-        else{
+        else if (leftSticky != 0 && leftStickx ==0) {
             motor3pow = 0;
-            if(leftSticky > 0){
+            if (leftSticky > 0) {
                 m1x = 0;
                 m2x = 0;
                 m2y = -speed;
                 m1y = -speed;
-            }  else if(leftSticky < 0){
+            } else{
                 m1x = 0;
                 m2x = 0;
                 m2y = speed;
                 m1y = speed;
             }
         }
-    motor1pow = Math.pow((Math.pow(m1x,2) + Math.pow(m1y,2)), .5);
-    motor2pow =  Math.pow((Math.pow(m2x,2) + Math.pow(m2y,2)), .5);
+        else if(leftSticky>0 && leftStickx>0){
+            ////////
+            m1x = -leftStickx;
+            m1y = leftSticky;
+            m3x = -leftStickx;
+            m3y = -leftSticky;
+        }
+        else if(leftSticky>0 && leftStickx<0){
+            m2x= leftStickx;
+            m2y= -speed;
+            m3x= leftStickx;
+            m3y= leftSticky;
+        }
+        else if(leftSticky < 0 && leftStickx < 0){
+            m1x = -leftStickx;
+            m1y = -leftSticky;
+            m3x = -leftStickx;
+            m3y = leftSticky;
+        }  else if(leftSticky < 0 && leftStickx > 0){
+
+            m2x = leftStickx;
+            m2y = leftSticky;
+            m3x = -leftStickx;
+            m3y = -leftSticky;
+        }
+
+        motor1pow = Math.pow((Math.pow(m1x,2) + Math.pow(m1y,2)), .5);
+        motor2pow =  Math.pow((Math.pow(m2x,2) + Math.pow(m2y,2)), .5);
+        motor3pow = Math.pow((Math.pow(m3x,2) + Math.pow(m3y,2)), .5);
         if(m1y < 0){
             motor1pow = -motor1pow;
             motor2pow = -motor2pow;
-        }
+        } if(m3x <0) motor3pow = -motor3pow;
+        if(m1x <0) motor1pow = -motor1pow;
         leftMotor.setPower(motor1pow);
         rightMotor.setPower(motor2pow);
         thirdMotor.setPower(motor3pow);
 
     }
     public void rotateBot(){
-
+        while(gamepad1.a){
+            leftMotor.setPower(.55);
+            rightMotor.setPower(.55);
+        }while(gamepad1.y){
+            leftMotor.setPower(-.55);
+            rightMotor.setPower(-.55);
+        }
         double speed = .15;
         if(gamepad1.left_bumper) {
             while (gamepad1.left_bumper) {
