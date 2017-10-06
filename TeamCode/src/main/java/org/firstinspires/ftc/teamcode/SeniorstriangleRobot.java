@@ -140,9 +140,9 @@ public class SeniorstriangleRobot extends LinearOpMode {
         }
         else if(leftSticky>0 && leftStickx<0){
             m2x= leftStickx;
-            m2y= -speed;
+            m2y= speed;
             m3x= leftStickx;
-            m3y= leftSticky;
+            m3y= -leftSticky;
         }
         else if(leftSticky < 0 && leftStickx < 0){
             m1x = -leftStickx;
