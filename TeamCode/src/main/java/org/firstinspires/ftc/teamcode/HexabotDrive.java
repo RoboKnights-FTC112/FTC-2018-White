@@ -39,42 +39,21 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-/**
- * This OpMode uses the common HardwareK9bot class to define the devices on the robot.
- * All device access is managed through the HardwareK9bot class. (See this class for device names)
- * The code is structured as a LinearOpMode
- *
- * This particular OpMode executes a basic Tank Drive Teleop for the K9 bot
- * It raises and lowers the arm using the Gampad Y and A buttons respectively.
- * It also opens and closes the claw slowly using the X and B buttons.
- *
- * Note: the configuration of the servos is such that
- * as the arm servo approaches 0, the arm position moves up (away from the floor).
- * Also, as the claw servo approaches 0, the claw opens up (drops the game element).
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
-
 @TeleOp(name="Hexabot drive", group="K9bot")
 public class HexabotDrive extends LinearOpMode {
 
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
-    public Servo claw = null;
     //public ColorSensor colorSensor = null;
 
     @Override
     public void runOpMode() {
         double left = 0;
         double right = 0;
-        double clawpo = .5;
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
 
-        claw = hardwareMap.servo.get("servo");
-        claw.setPosition(clawpo);
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Say", "Hello Driver");    //
@@ -95,16 +74,7 @@ public class HexabotDrive extends LinearOpMode {
 
             leftMotor.setPower(left*.3);
             rightMotor.setPower(right*.3);
-            while (gamepad1.a == true && opModeIsActive()) {
-                clawpo+=.05;
-                clawpo = Math.min(1, clawpo);
-                claw.setPosition(clawpo);
-            }
-            while(gamepad1.b == true && opModeIsActive()) {
-                clawpo-= .05;
-                clawpo = Math.max(-1, clawpo);
-                claw.setPosition(clawpo);
-            }
+
 
 
         }

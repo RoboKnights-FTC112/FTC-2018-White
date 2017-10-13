@@ -40,23 +40,6 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.SwitchableLight;
 
-/**
- * This OpMode uses the common HardwareK9bot class to define the devices on the robot.
- * All device access is managed through the HardwareK9bot class. (See this class for device names)
- * The code is structured as a LinearOpMode
- *
- * This particular OpMode executes a basic Tank Drive Teleop for the K9 bot
- * It raises and lowers the arm using the Gampad Y and A buttons respectively.
- * It also opens and closes the claw slowly using the X and B buttons.
- *
- * Note: the configuration of the servos is such that
- * as the arm servo approaches 0, the arm position moves up (away from the floor).
- * Also, as the claw servo approaches 0, the claw opens up (drops the game element).
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
-
 @Autonomous(name="Hexabotredcorner", group="Senior")
 
 public class Hexabotredcorner extends LinearOpMode {
@@ -64,20 +47,16 @@ public class Hexabotredcorner extends LinearOpMode {
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
-    public Servo claw = null;
     //public ColorSensor colorSensor = null;
 
     @Override
     public void runOpMode() {
         double left = 0;
         double right = 0;
-        double clawpo = .5;
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
 
-        claw = hardwareMap.servo.get("servo");
-        claw.setPosition(clawpo);
-        leftMotor.setDirection(DcMotor.Direction.REVERSE);
+         leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
@@ -99,9 +78,12 @@ public class Hexabotredcorner extends LinearOpMode {
             //telemetry.update();
             //sleep(5000);
             driveDistance(.25,3850);
-            turnleft90(.25);
+            turnright90(.25);
             driveDistance(.25,1200);
-
+            turn(.25,355);
+            turn(-.25,-355);
+            driveDistance(.25,300);
+            driveDistance(-.7,-600);
 
 
         }
@@ -110,7 +92,7 @@ public class Hexabotredcorner extends LinearOpMode {
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
-        rightMotor.setTargetPosition(2520);
+        rightMotor.setTargetPosition(2500);
         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         rightMotor.setPower(speed);
@@ -133,11 +115,11 @@ public class Hexabotredcorner extends LinearOpMode {
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-        public void turnright90 (double speed) {
+    public void turnright90 (double speed) {
            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
-            leftMotor.setTargetPosition(2520);
+            leftMotor.setTargetPosition(2500);
             leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
              leftMotor.setPower(speed);
@@ -159,13 +141,13 @@ public class Hexabotredcorner extends LinearOpMode {
 
             leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
-        public void drive(double speed){
+    public void drive(double speed){
             if (opModeIsActive()){
                 leftMotor.setPower(speed);
                 rightMotor.setPower(speed);
             }
         }
-        public void driveDistance(double speed, int targetEncoderValue){
+    public void driveDistance(double speed, int targetEncoderValue){
             leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -202,6 +184,42 @@ public class Hexabotredcorner extends LinearOpMode {
             leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
+    public void turn(double speed, int Value){
+        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        leftMotor.setTargetPosition(Value);
+        rightMotor.setTargetPosition(-Value);
+
+        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        leftMotor.setPower(speed);
+        rightMotor.setPower(-speed);
+
+
+        while ((leftMotor.isBusy() || rightMotor.isBusy()) && opModeIsActive()){
+            telemetry.addData("Left Loop Current", leftMotor.getCurrentPosition());
+            telemetry.addData("Left Loop Target", leftMotor.getTargetPosition());
+            telemetry.addData("Right Loop Current", rightMotor.getCurrentPosition());
+            telemetry.addData("Right Loop Target", rightMotor.getTargetPosition());  //
+            telemetry.update();
+            telemetry.addData("4th", "Hello Driver");    //
+            telemetry.update();
+
+            //do anything
+            //we could spit out some telemetry about the encoder value
+        }
+        telemetry.addData("5th", "Hello Driver");    //
+        telemetry.update();
+
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
+        telemetry.addData("6th", "Hello Driver");    //
+        telemetry.update();
+
+        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
 
 }
