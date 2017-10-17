@@ -47,7 +47,7 @@ import com.qualcomm.robotcore.hardware.SwitchableLight;
 
 @Autonomous(name="Hexabotbluecorner", group="Senior")
 
-public class HexabotEncoders extends LinearOpMode {
+public class Hexabotbluecorner extends LinearOpMode {
 
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
@@ -85,8 +85,10 @@ public class HexabotEncoders extends LinearOpMode {
             driveDistance(.25,3850);
             turnleft90(.25);
             driveDistance(.25,1200);
-            turn(.25,355);
-            turn(-.25,-355);
+            drive(.25);
+            sleep(700);
+            drive(-.25);
+            sleep(700);
             driveDistance(.25,300);
             driveDistance(-.7,-600);
 
