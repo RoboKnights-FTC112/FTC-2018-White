@@ -80,11 +80,12 @@ public class HexabotBluetop extends LinearOpMode {
             driveDistance(.25,3850);
             turnright90(.25);
             driveDistance(.25,1000);
-            turn(.25,355);
-            turn(-.25,-355);
+            drive(.25);
+            sleep(700);
+            drive(-.25);
+            sleep(700);
             driveDistance(.25,300);
             driveDistance(-.7,-600);
-
 
         }
     }
