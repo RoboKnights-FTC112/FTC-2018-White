@@ -61,6 +61,9 @@ public class SeniorstriangleRobot extends LinearOpMode {
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
     public DcMotor thirdMotor = null;
+    public DcMotor arm1 = null;
+    public DcMotor arm2 = null;
+    public double pow = 0.50;
 
     @Override
     public void runOpMode() {
@@ -74,8 +77,13 @@ public class SeniorstriangleRobot extends LinearOpMode {
         leftMotor   = hardwareMap.dcMotor.get("leftdrive");
         rightMotor  = hardwareMap.dcMotor.get("rightdrive");
         thirdMotor = hardwareMap.dcMotor.get("thirddrive");
+        arm1 = hardwareMap.dcMotor.get("arm1");
+        arm2 = hardwareMap.dcMotor.get("arm2");
+        arm2.setDirection(DcMotor.Direction.REVERSE);
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
-
+       // armMotor1 = hardwareMap.dcMotor.get("arm1");
+        //armMotor2 = hardwareMap.dcMotor.get("arm2");
+        //armMotor2.setDirection(DcMotor.Direction.REVERSE);
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
 
@@ -84,15 +92,35 @@ public class SeniorstriangleRobot extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            DriveTriBot();
+           // DriveTriBot();
+            newDrive();
             rotateBot();
-
+            //armCode();
+           /* if(gamepad1.dpad_up) pow = .35;
+            if(gamepad1.dpad_down) pow = .4;
+            if(gamepad1.dpad_left) pow = .5;
+            if(gamepad1.dpad_right) pow = .6;
+            if(Math.abs(gamepad1.left_trigger) > 0) pow = .45;
+            if(Math.abs(gamepad1.right_trigger) > 0) pow = .3;
+            telemetry.addData("Pow", pow);
+            updateTelemetry(telemetry);
+            telemetry.update();*/
+            if(gamepad1.a) {
+                arm1.setPower(pow);
+                arm2.setPower(pow);
+            }else if(gamepad1.y){
+                arm1.setPower(-pow);
+                arm2.setPower(-pow);
+            } else {
+                arm1.setPower(0);
+                arm2.setPower(0);
+            }
 
         }
     }
 
-    public void DriveTriBot(){
-        double speed = .15;
+    private void DriveTriBot(){
+        double speed = .25 ;
         double motor1pow = 0;
         double motor2pow = 0;
         double motor3pow = 0;
@@ -152,32 +180,38 @@ public class SeniorstriangleRobot extends LinearOpMode {
         }  else if(leftSticky < 0 && leftStickx > 0){
 
             m2x = leftStickx;
-            m2y = leftSticky;
-            m3x = -leftStickx;
-            m3y = -leftSticky;
+            m2y = -speed;
+            m3x = leftStickx;
+            m3y = leftSticky;
         }
 
         motor1pow = Math.pow((Math.pow(m1x,2) + Math.pow(m1y,2)), .5);
         motor2pow =  Math.pow((Math.pow(m2x,2) + Math.pow(m2y,2)), .5);
         motor3pow = Math.pow((Math.pow(m3x,2) + Math.pow(m3y,2)), .5);
-        if(m1y < 0){
-            motor1pow = -motor1pow;
-            motor2pow = -motor2pow;
-        } if(m3x <0) motor3pow = -motor3pow;
-        if(m1x <0) motor1pow = -motor1pow;
+            if(leftStickx < 0 && leftSticky < 0){
+                // all positive
+            } else if (leftStickx > 0 && leftSticky < 0){
+                motor3pow = -motor3pow;
+            } else if (leftStickx < 0 && leftSticky > 0){
+                motor2pow = -motor2pow;
+            } else if (leftStickx > 0 && leftSticky > 0){
+                motor3pow = -motor3pow;
+                motor1pow = -motor1pow;
+            }
+
+            if (leftSticky < 0 && Math.abs(leftStickx) < 0.15){
+                motor1pow = -motor1pow;
+                motor2pow = -motor2pow;
+                //all positive
+            } else if (leftSticky > 0 && Math.abs(leftStickx) < 0.15) {
+            }
         leftMotor.setPower(motor1pow);
         rightMotor.setPower(motor2pow);
         thirdMotor.setPower(motor3pow);
 
     }
     public void rotateBot(){
-        while(gamepad1.a){
-            leftMotor.setPower(.55);
-            rightMotor.setPower(.55);
-        }while(gamepad1.y){
-            leftMotor.setPower(-.55);
-            rightMotor.setPower(-.55);
-        }
+
         double speed = .15;
         if(gamepad1.left_bumper) {
             while (gamepad1.left_bumper) {
@@ -187,10 +221,60 @@ public class SeniorstriangleRobot extends LinearOpMode {
             }
         } else if(gamepad1.right_bumper){
             while(gamepad1.right_bumper) {
-                leftMotor.setPower(speed);
-                rightMotor.setPower(-speed);
-                thirdMotor.setPower(-speed);
+                leftMotor.setPower(speed);//counter
+                rightMotor.setPower(-speed);//counter
+                thirdMotor.setPower(-speed);//clock
             }
         }
+    }
+
+    public void newDrive(){
+        double powah = .27;
+        if(gamepad1.dpad_up){
+            leftMotor.setPower(-powah);
+            rightMotor.setPower(-powah);
+        } else if(gamepad1.dpad_down){
+            leftMotor.setPower(powah);
+            rightMotor.setPower(powah);
+        }else if(gamepad1.dpad_left){
+            leftMotor.setPower(powah);
+            thirdMotor.setPower(powah);
+        }else if(gamepad1.dpad_right){
+            thirdMotor.setPower(-powah);
+            rightMotor.setPower(powah);
+
+        }else if(Math.abs(gamepad1.right_trigger) > 0){
+            thirdMotor.setPower(-powah);
+            leftMotor.setPower(-powah);
+        } else if(Math.abs(gamepad1.left_trigger) >0 ){
+            thirdMotor.setPower(powah);
+            rightMotor.setPower(-powah);
+        }
+        else {
+            thirdMotor.setPower(0);
+            leftMotor.setPower(0);
+            rightMotor.setPower(0);
+        }
+
+
+    }
+    public void armCode(){
+
+
+        boolean armmove = gamepad1.dpad_left;
+        boolean armmoveOtherway = gamepad1.dpad_right;
+
+
+
+
+        if(gamepad1.a){
+            arm1.setPower(pow);
+            arm2.setPower(pow);
+        }
+        if(gamepad1.y){
+            arm1.setPower(-pow);
+            arm2.setPower(-pow);
+        }
+
     }
 }
