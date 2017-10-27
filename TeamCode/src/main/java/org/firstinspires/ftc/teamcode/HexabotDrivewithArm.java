@@ -117,8 +117,14 @@ public class HexabotDrivewithArm extends LinearOpMode {
                 telemetry.addData("servo2:", clawpo2);    //
                 telemetry.update();
             }
+            if (gamepad2.x==true && opModeIsActive()) {
+                claw.setPosition(.5);
+                claw2.setPosition(.5);
+                clawpo = .5;
+                clawpo2 = .5;
 
 
+            }
         }
 
     }public void moveDownDistance (double speed) {

@@ -39,6 +39,7 @@ import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.SwitchableLight;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="Hexabotredtop", group="Senior")
 
@@ -77,15 +78,10 @@ public class HexabotRedtop extends LinearOpMode {
              //       .addData("b", "%02x", Color.blue(color));
             //telemetry.update();
             //sleep(5000);
-            driveDistance(.25,3850);
+            driveDistance(.25,3750);
             turnleft90(.25);
             driveDistance(.25,1000);
-            drive(.25);
-            sleep(700);
-            drive(-.25);
-            sleep(700);
-            driveDistance(.25,300);
-            driveDistance(-.7,-600);
+
 
         }
     }
@@ -162,9 +158,10 @@ public class HexabotRedtop extends LinearOpMode {
             leftMotor.setPower(speed);
             rightMotor.setPower(speed);
 
-
-            while ((leftMotor.isBusy() || rightMotor.isBusy()) && opModeIsActive()){
-                telemetry.addData("Left Loop Current", leftMotor.getCurrentPosition());
+        ElapsedTime time = new ElapsedTime();
+        time.reset();
+        while ((leftMotor.isBusy() || rightMotor.isBusy()) && opModeIsActive() && time.seconds() < 4){
+            telemetry.addData("Left Loop Current", leftMotor.getCurrentPosition());
                 telemetry.addData("Left Loop Target", leftMotor.getTargetPosition());
                 telemetry.addData("Right Loop Current", rightMotor.getCurrentPosition());
                 telemetry.addData("Right Loop Target", rightMotor.getTargetPosition());  //
