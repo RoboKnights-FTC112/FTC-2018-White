@@ -119,9 +119,9 @@ public class SeniorstriangleRobot extends LinearOpMode {
             telemetry.update();*/
             double pos1 = serv1.getPosition();
             double pos2 = serv2.getPosition();
-            if(gamepad1.b){
-                arm1.setPower(-.28);
-                arm2.setPower(-.28);
+            if(gamepad2.b){
+                arm1.setPower(-.275786);
+                arm2.setPower(-.275786);
             }
             else if(gamepad2.a) {
                 arm1.setPower(pow);
@@ -133,10 +133,10 @@ public class SeniorstriangleRobot extends LinearOpMode {
                 arm1.setPower(0);
                 arm2.setPower(0);
             }
-            if(gamepad2.right_trigger != 0 &&( armpow + armInc <= 1)){
-                armpow -= armInc;
-            } else if(gamepad2.left_trigger != 0 && (armpow - armInc >=0)){
+            if(gamepad2.left_trigger != 0 &&( armpow + armInc <= 1)){
                 armpow += armInc;
+            } else if(gamepad2.right_trigger != 0 && (armpow - armInc >=0)){
+                armpow -= armInc;
             }
             armserv.setPosition(armpow);
             if (gamepad2.dpad_down){
