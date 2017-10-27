@@ -52,17 +52,27 @@ public class Hexabotbluecorner extends LinearOpMode {
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
-   //public ColorSensor colorSensor = null;
+    public DcMotor armMotor = null;
+    public Servo claw = null;
+    public Servo claw2 = null;
+    //public ColorSensor colorSensor = null;
 
     @Override
     public void runOpMode() {
         double left = 0;
         double right = 0;
+        double up = .5;
+        double clawpo = .5;
+        double clawpo2 = .5;
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
-
+        armMotor = hardwareMap.dcMotor.get("armmotor");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
+        claw = hardwareMap.servo.get("claw");
+        claw2 = hardwareMap.servo.get("claw2");
+        claw.setPosition(.38);
+        claw2.setPosition(.62);
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
 
@@ -82,16 +92,14 @@ public class Hexabotbluecorner extends LinearOpMode {
              //       .addData("b", "%02x", Color.blue(color));
             //telemetry.update();
             //sleep(5000);
-            driveDistance(.25,3850);
-            turnleft90(.25);
-            driveDistance(.25,1200);
-            drive(.25);
-            sleep(700);
-            drive(-.25);
-            sleep(700);
-            driveDistance(.25,300);
+            driveDistance(.25,3770);
+            turnright90(.25);
+            driveDistance(.25,900);
+            claw2.setPosition(.1);
+            claw.setPosition(.9);
             driveDistance(-.7,-600);
-
+            claw2.setPosition(.3);
+            claw.setPosition(.7);
 
 
         }
