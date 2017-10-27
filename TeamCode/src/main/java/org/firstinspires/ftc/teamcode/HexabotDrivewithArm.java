@@ -45,21 +45,25 @@ public class HexabotDrivewithArm extends LinearOpMode {
     public DcMotor  rightMotor  = null;
     public DcMotor armMotor = null;
     public Servo claw = null;
+    public Servo claw2 = null;
     //public ColorSensor colorSensor = null;
 
     @Override
     public void runOpMode() {
         double left = 0;
         double right = 0;
-        double up = 0;
+        double up = .5;
         double clawpo = .5;
+        double clawpo2 = .5;
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
         armMotor = hardwareMap.dcMotor.get("armmotor");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         claw = hardwareMap.servo.get("claw");
+        claw2 = hardwareMap.servo.get("claw2");
         claw.setPosition(clawpo);
+        claw2.setPosition(clawpo);
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
 
@@ -76,21 +80,103 @@ public class HexabotDrivewithArm extends LinearOpMode {
             left = -gamepad1.left_stick_y;
             right = -gamepad1.right_stick_y;
             up = -gamepad2.right_stick_y;
-            armMotor.setPower(up *.25);
             leftMotor.setPower(left*.25);
             rightMotor.setPower(right*.25);
-            while (gamepad2.a == true && opModeIsActive()) {
-                clawpo+=.05;
+            if (gamepad1.a == true && opModeIsActive()) {
+                leftMotor.setPower(left*.7);
+                rightMotor.setPower(right*.7);
+            }
+            armMotor.setPower(up *.15);
+           /* if (gamepad2.y == true && opModeIsActive()) {
+                moveUpDistance(.25);
+
+            }
+            if (gamepad2.x == true) {
+               moveUpDistance(-.25);
+            }*/
+
+            if (gamepad2.a == true && opModeIsActive()) { //both arms open
+                clawpo+=.01;
                 clawpo=Math.min(1,clawpo);
+                clawpo2-=.01;
+                clawpo2=Math.max(.3,clawpo2);
                 claw.setPosition(clawpo);
+                claw2.setPosition(clawpo2);
+                telemetry.addData("servo1:", clawpo);    //
+                telemetry.addData("servo2:", clawpo2);    //
+                telemetry.update();
             }
-            while (gamepad2.b == true && opModeIsActive()) {
-                clawpo -= .05;
-                clawpo = Math.max(-1,clawpo);
+            if (gamepad2.b == true && opModeIsActive()) { //both arms close
+                clawpo -= .01;
+                clawpo = Math.max(.3,clawpo);
+                clawpo2+=.01;
+                clawpo2=Math.min(1,clawpo2);
                 claw.setPosition(clawpo);
+                claw2.setPosition(clawpo2);
+                telemetry.addData("servo1:", clawpo);
+                telemetry.addData("servo2:", clawpo2);    //
+                telemetry.update();
             }
+            if (gamepad2.x==true && opModeIsActive()) {
+                claw.setPosition(.5);
+                claw2.setPosition(.5);
+                clawpo = .5;
+                clawpo2 = .5;
 
 
+            }
         }
+
+    }public void moveDownDistance (double speed) {
+        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+        armMotor.setTargetPosition(-2000);
+        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        armMotor.setPower(-speed);
+
+
+        while ((armMotor.isBusy()) && opModeIsActive()){
+
+
+            //do anything
+            //we could spit out some telemetry about the encoder value
+        }
+        telemetry.addData("5th", "Hello Driver");    //
+        telemetry.update();
+
+        armMotor.setPower(0);
+        armMotor.setPower(0);
+        telemetry.addData("6th", "Hello Driver");    //
+        telemetry.update();
+
+        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+    public void moveUpDistance (double speed) {
+        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+        armMotor.setTargetPosition(2000);
+        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        armMotor.setPower(speed);
+
+
+        while ((armMotor.isBusy()) && opModeIsActive()){
+
+
+            //do anything
+            //we could spit out some telemetry about the encoder value
+        }
+        telemetry.addData("5th", "Hello Driver");    //
+        telemetry.update();
+
+        armMotor.setPower(0);
+        armMotor.setPower(0);
+        telemetry.addData("6th", "Hello Driver");    //
+        telemetry.update();
+
+        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }
