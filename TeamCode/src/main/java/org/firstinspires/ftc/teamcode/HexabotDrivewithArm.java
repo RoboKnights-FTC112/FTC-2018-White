@@ -118,14 +118,21 @@ public class HexabotDrivewithArm extends LinearOpMode {
                 telemetry.update();
             }
             if (gamepad2.x==true && opModeIsActive()) {
-                claw.setPosition(.5);
-                claw2.setPosition(.5);
-                clawpo = .5;
-                clawpo2 = .5;
-
+                claw.setPosition(.3);
+                claw2.setPosition(.8);
+                clawpo = .3;
+                clawpo2 = .8;
 
             }
-        }
+            if (gamepad2.y==true && opModeIsActive()) {
+                claw.setPosition(.8);
+                claw2.setPosition(.3);
+                clawpo = .8;
+                clawpo2 = .3;
+
+            }
+            }
+
 
     }public void moveDownDistance (double speed) {
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
