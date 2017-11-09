@@ -51,8 +51,9 @@ public class Hexabotredcorner extends LinearOpMode {
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
     public DcMotor armMotor = null;
-    public Servo claw = null;
-    public Servo claw2 = null;
+    public Servo mover = null;
+    public Servo mover2 = null;
+    NormalizedColorSensor colorSensor;
     //public ColorSensor colorSensor = null;
 
     @Override
@@ -60,17 +61,18 @@ public class Hexabotredcorner extends LinearOpMode {
         double left = 0;
         double right = 0;
         double up = .5;
-        double clawpo = .5;
-        double clawpo2 = .5;
+
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
         armMotor = hardwareMap.dcMotor.get("armmotor");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        claw = hardwareMap.servo.get("claw");
-        claw2 = hardwareMap.servo.get("claw2");
-        claw.setPosition(.38);
-        claw2.setPosition(.62);
+        mover = hardwareMap.servo.get("mover");
+        mover2 = hardwareMap.servo.get("mover2");
+        double moverpo = mover.getPosition();
+        double moverpo2 = mover2.getPosition();
+        mover.setPosition(moverpo);
+        mover2.setPosition(moverpo2);
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
 
@@ -79,25 +81,17 @@ public class Hexabotredcorner extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         if (opModeIsActive()) {
-
-            //driveUntilGrey(.25);
-            //NormalizedRGBA colors = colorSensor.getNormalizedColors();
-            //@ColorInt int color = colors.toColor();
-            //telemetry.addLine("color: ")
-             //       .addData("a", "%02x", Color.alpha(color))
-               //     .addData("r", "%02x", Color.red(color))
-                 //   .addData("g", "%02x", Color.green(color))
-             //       .addData("b", "%02x", Color.blue(color));
-            //telemetry.update();
-            //sleep(5000);
+            NormalizedRGBA colors = colorSensor.getNormalizedColors();
+            //move left arm down
+            if (colors.blue>=.007 && colors.red<.002) {
+                //move away from color sensor
+            } else {
+                //move towards color sensor
+            }
             driveDistance(.25,3770);
             turnright90(.25);
             driveDistance(.25,900);
-            claw2.setPosition(.1);
-            claw.setPosition(.9);
             driveDistance(-.7,-600);
-            claw2.setPosition(.3);
-            claw.setPosition(.7);
 
         }
     }

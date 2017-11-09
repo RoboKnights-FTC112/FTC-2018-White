@@ -94,7 +94,7 @@ public class Hexabotbluecorner extends LinearOpMode {
             //telemetry.update();
             //sleep(5000);
             driveDistance(.25,3770);
-            turnright90(.25);
+            turnleft90(.25);
             driveDistance(.25,900);
             claw2.setPosition(.1);
             claw.setPosition(.9);

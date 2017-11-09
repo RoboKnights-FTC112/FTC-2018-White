@@ -43,7 +43,7 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Hexabotredcorner", group="Senior")
+@Autonomous(name="colorsensor", group="Senior")
 
 public class ColorSensorTest extends LinearOpMode {
     NormalizedColorSensor colorSensor;
@@ -60,6 +60,8 @@ public class ColorSensorTest extends LinearOpMode {
         double clawpo = .5;
         double clawpo2 = .5;
 
+        colorSensor = hardwareMap.get(NormalizedColorSensor.class, "colorSensor");
+
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
 
@@ -67,35 +69,37 @@ public class ColorSensorTest extends LinearOpMode {
         waitForStart();
 
         // run until the end of the match (driver presses STOP)
-        if (opModeIsActive()) {
+        while (opModeIsActive()) {
 
             //driveUntilGrey(.25);
-            //NormalizedRGBA colors = colorSensor.getNormalizedColors();
-            //@ColorInt int color = colors.toColor();
-            //telemetry.addLine("color: ")
-             //       .addData("a", "%02x", Color.alpha(color))
-               //     .addData("r", "%02x", Color.red(color))
-                 //   .addData("g", "%02x", Color.green(color))
-             //       .addData("b", "%02x", Color.blue(color));
-            //telemetry.update();
-            //sleep(5000);
             NormalizedRGBA colors = colorSensor.getNormalizedColors();
-
-            /** Use telemetry to display feedback on the driver station. We show the conversion
-             * of the colors to hue, saturation and value, and display the the normalized values
-             * as returned from the sensor.
-             * @see <a href="http://infohost.nmt.edu/tcc/help/pubs/colortheory/web/hsv.html">HSV</a>*/
-            float[] hsvValues = new float[3];
-            Color.colorToHSV(colors.toColor(), hsvValues);
-            telemetry.addLine()
-                    .addData("H", "%.3f", hsvValues[0])
-                    .addData("S", "%.3f", hsvValues[1])
-                    .addData("V", "%.3f", hsvValues[2]);
-            telemetry.addLine()
+             //int color = colors.toColor();
+            telemetry.addLine("color: ")
                     .addData("a", "%.3f", colors.alpha)
                     .addData("r", "%.3f", colors.red)
                     .addData("g", "%.3f", colors.green)
                     .addData("b", "%.3f", colors.blue);
+            telemetry.update();
+            sleep(10000);
+
+            ////NormalizedRGBA colors = colorSensor.getNormalizedColors();
+
+            /**
+             *  float[] hsvValues = new float[3];
+             Color.colorToHSV(colors.toColor(), hsvValues);
+             telemetry.addLine()
+             .addData("H", "%.3f", hsvValues[0])
+             .addData("S", "%.3f", hsvValues[1])
+             .addData("V", "%.3f", hsvValues[2]);
+             telemetry.addLine()
+             .addData("a", "%.3f", colors.alpha)
+             .addData("r", "%.3f", colors.red)
+             .addData("g", "%.3f", colors.green)
+             .addData("b", "%.3f", colors.blue); Use telemetry to display feedback on the driver station. We show the conversion
+             * of the colors to hue, saturation and value, and display the the normalized values
+             * as returned from the sensor.
+             * @see <a href="http://infohost.nmt.edu/tcc/help/pubs/colortheory/web/hsv.html">HSV</a>*/
+
 
 
         }
