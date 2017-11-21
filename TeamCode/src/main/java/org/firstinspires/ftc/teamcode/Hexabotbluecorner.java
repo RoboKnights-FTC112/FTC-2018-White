@@ -48,32 +48,37 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="Hexabotbluecorner", group="Senior")
 
-public class Hexabotbluecorner extends LinearOpMode {
+public class    Hexabotbluecorner extends LinearOpMode {
 
     /* Declare OpMode members. */
+    NormalizedColorSensor colorSensorB;
+
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
     public DcMotor armMotor = null;
     public Servo claw = null;
     public Servo claw2 = null;
-    //public ColorSensor colorSensor = null;
+    public Servo sensorArmB = null;
+    public Servo sensorArmR = null;
 
     @Override
     public void runOpMode() {
         double left = 0;
         double right = 0;
         double up = .5;
-        double clawpo = .5;
-        double clawpo2 = .5;
+        colorSensorB = hardwareMap.get(NormalizedColorSensor.class, "colorSensor");
+
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
         armMotor = hardwareMap.dcMotor.get("armmotor");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
-
+        sensorArmB=hardwareMap.servo.get("servoB");
+        sensorArmR=hardwareMap.servo.get("servoR");
         claw = hardwareMap.servo.get("claw");
         claw2 = hardwareMap.servo.get("claw2");
-        claw.setPosition(.38);
-        claw2.setPosition(.62);
+        double clawpo = claw.getPosition();
+        double clawpo2 = claw2.getPosition();
+        double num = sensorArmB.getPosition();
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
 
@@ -82,25 +87,46 @@ public class Hexabotbluecorner extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         if (opModeIsActive()) {
-
-            //driveUntilGrey(.25);
-            //NormalizedRGBA colors = colorSensor.getNormalizedColors();
-            //@ColorInt int color = colors.toColor();
-            //telemetry.addLine("color: ")
-             //       .addData("a", "%02x", Color.alpha(color))
+            claw.setPosition(.4);
+            claw2.setPosition(.6);
+            //sleep(200);
+           // armMotor.setPower(.2);
+            //armMotor2.setPower(-.2);
+            //sleep(900);
+            //armMotor.setPower(0);
+            //armMotor2.setPower(0);
+            NormalizedRGBA colors = colorSensorB.getNormalizedColors();
+                  //  colorSensorB.addData("a", "%02x", Color.alpha(color))
                //     .addData("r", "%02x", Color.red(color))
                  //   .addData("g", "%02x", Color.green(color))
              //       .addData("b", "%02x", Color.blue(color));
             //telemetry.update();
             //sleep(5000);
-            driveDistance(.25,3770);
-            turnleft90(.25);
-            driveDistance(.25,900);
+            sensorArmB.setPosition(.1 );
+            sleep(1500);
+            if (colors.blue > .007 && colors.red<.001) {
+                driveDistance(.2,500);
+                sleep(500);
+                sensorArmB.setPosition(.7);
+                driveDistance(.2,3270);//3770
+
+            }
+            else {
+                driveDistance(-.2,500);
+                sleep(1000);
+                sensorArmB.setPosition(.7);
+                driveDistance(.2,4270);
+            }
+            sensorArmB.setPosition(num);
+
+
+
+            turnleft90(.2);
+            driveDistance(.2,900);
             claw2.setPosition(.1);
             claw.setPosition(.9);
-            driveDistance(-.7,-600);
-            claw2.setPosition(.3);
-            claw.setPosition(.7);
+            driveDistance(-.2,-600);
+
 
 
         }
@@ -180,7 +206,7 @@ public class Hexabotbluecorner extends LinearOpMode {
 
         ElapsedTime time = new ElapsedTime();
         time.reset();
-        while ((leftMotor.isBusy() || rightMotor.isBusy()) && opModeIsActive() && time.seconds() < 4){
+        while ((leftMotor.isBusy() && rightMotor.isBusy()) && opModeIsActive() && time.seconds() < 4){
             telemetry.addData("Left Loop Current", leftMotor.getCurrentPosition());
                 telemetry.addData("Left Loop Target", leftMotor.getTargetPosition());
                 telemetry.addData("Right Loop Current", rightMotor.getCurrentPosition());
