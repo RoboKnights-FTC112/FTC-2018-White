@@ -54,7 +54,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
+
 @Disabled@TeleOp(name="Wills Bot", group="K9bot")
+
 public class WillsRobot extends LinearOpMode {
 
     /* Declare OpMode members. */

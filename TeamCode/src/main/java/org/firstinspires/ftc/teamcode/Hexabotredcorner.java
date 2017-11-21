@@ -51,9 +51,11 @@ public class Hexabotredcorner extends LinearOpMode {
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
     public DcMotor armMotor = null;
-    public Servo claw = null;
-    public Servo claw2 = null;
-    public DcMotor armMotor2 = null;
+
+    public Servo mover = null;
+    public Servo mover2 = null;
+    NormalizedColorSensor colorSensor;
+
     //public ColorSensor colorSensor = null;
 
     @Override
@@ -65,13 +67,15 @@ public class Hexabotredcorner extends LinearOpMode {
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
         armMotor = hardwareMap.dcMotor.get("armmotor");
-        armMotor2 = hardwareMap.dcMotor.get("armmotor2");
+
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        claw = hardwareMap.servo.get("claw");
-        claw2 = hardwareMap.servo.get("claw2");
-        double clawpo = claw.getPosition();
-        double clawpo2 = claw2.getPosition();
+        mover = hardwareMap.servo.get("mover");
+        mover2 = hardwareMap.servo.get("mover2");
+        double moverpo = mover.getPosition();
+        double moverpo2 = mover2.getPosition();
+        mover.setPosition(moverpo);
+        mover2.setPosition(moverpo2);
 
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
@@ -81,20 +85,19 @@ public class Hexabotredcorner extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         if (opModeIsActive()) {
-            claw.setPosition(.4);
-            claw2.setPosition(.6);
-            sleep(200);
-            armMotor.setPower(.2);
-            armMotor2.setPower(-.2);
-            sleep(900);
-            armMotor.setPower(0);
-            armMotor2.setPower(0);
-            driveDistance(.2,3770);
-            turnright90(.2);
-            driveDistance(.2,900);
-            claw2.setPosition(.1);
-            claw.setPosition(.9);
-            driveDistance(-.2,-600);
+
+            NormalizedRGBA colors = colorSensor.getNormalizedColors();
+            //move left arm down
+            if (colors.blue>=.007 && colors.red<.002) {
+                //move away from color sensor
+            } else {
+                //move towards color sensor
+            }
+            driveDistance(.25,3770);
+            turnright90(.25);
+            driveDistance(.25,900);
+            driveDistance(-.7,-600);
+
 
         }
     }

@@ -32,7 +32,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -55,22 +57,25 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Disabled
-@TeleOp(name="Senior TriBot Drive", group="Senior")
+
+@TeleOp(name="arm", group="Senior")
+
 
 public class SeniorstriangleRobot extends LinearOpMode {
 
     /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
-    public DcMotor thirdMotor = null;
+
+    public DcMotor arm3 = null;
     public DcMotor arm1 = null;
     public DcMotor arm2 = null;
-    public double pow = 0.50;
+    public double pow = 0.30;
 
     public Servo serv1 = null;
-    public Servo serv2 = null;
-    public Servo armserv = null;
+   // public Servo serv2 = null;
+    //public Servo armserv = null;
+
     public double serv1Incr = .03;
     public double armInc = .01001;
     public double armpow;
@@ -80,20 +85,24 @@ public class SeniorstriangleRobot extends LinearOpMode {
 
 
 
-        leftMotor   = hardwareMap.dcMotor.get("leftdrive");
-        rightMotor  = hardwareMap.dcMotor.get("rightdrive");
-        thirdMotor = hardwareMap.dcMotor.get("thirddrive");
+
+       // leftMotor   = hardwareMap.dcMotor.get("leftdrive");
+        //rightMotor  = hardwareMap.dcMotor.get("rightdrive");
+        arm3 = hardwareMap.dcMotor.get("arm3");
+
         arm1 = hardwareMap.dcMotor.get("arm1");
         arm2 = hardwareMap.dcMotor.get("arm2");
         serv1 = hardwareMap.servo.get("serv1");
         serv1.setPosition(.9900000000000007);
-        serv2 = hardwareMap.servo.get("serv2");
-        serv2.setPosition(.00999999999999937);
-        armserv = hardwareMap.servo.get("servclamp");
-        armserv.setPosition(.55000000000000003);
+
+        //serv2 = hardwareMap.servo.get("serv2");
+        //serv2.setPosition(.00999999999999937);
+        //armserv = hardwareMap.servo.get("servclamp");
+        //armserv.setPosition(.55000000000000003);
 
         arm2.setDirection(DcMotor.Direction.REVERSE);
-        leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        //leftMotor.setDirection(DcMotor.Direction.REVERSE);
+
 
        // armMotor1 = hardwareMap.dcMotor.get("arm1");
         //armMotor2 = hardwareMap.dcMotor.get("arm2");
@@ -107,8 +116,10 @@ public class SeniorstriangleRobot extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
            // DriveTriBot();
-            newDrive();
-            rotateBot();
+
+           // newDrive();
+            //rotateBot();
+
             //armCode();
            /* if(gamepad1.dpad_up) pow = .35;
             if(gamepad1.dpad_down) pow = .4;
@@ -120,10 +131,15 @@ public class SeniorstriangleRobot extends LinearOpMode {
             updateTelemetry(telemetry);
             telemetry.update();*/
             double pos1 = serv1.getPosition();
-            double pos2 = serv2.getPosition();
+
+
             if(gamepad2.b){
                 arm1.setPower(-.275786);
                 arm2.setPower(-.275786);
+            } else if(gamepad2.x){
+                arm1.setPower(.275786);
+                arm2.setPower(.275786);
+
             }
             else if(gamepad2.a) {
                 arm1.setPower(pow);
@@ -135,42 +151,43 @@ public class SeniorstriangleRobot extends LinearOpMode {
                 arm1.setPower(0);
                 arm2.setPower(0);
             }
-            if(gamepad2.left_trigger != 0 &&( armpow + armInc <= 1)){
-                armpow += armInc;
-            } else if(gamepad2.right_trigger != 0 && (armpow - armInc >=0)){
-                armpow -= armInc;
+
+            if(gamepad2.left_trigger != 0){
+                if(!(pos1 + serv1Incr >1)) pos1 = pos1 + serv1Incr;
+
+
+            } else if(gamepad2.right_trigger !=0){
+              if(!(pos1 - serv1Incr <0)) {
+                  pos1 = pos1 - serv1Incr;
+              }
             }
-            armserv.setPosition(armpow);
+            serv1.setPosition(pos1);
             if (gamepad2.dpad_down){
-               if((pos1 + serv1Incr >1 || pos2 - serv1Incr <0)){
-                   pos1 = pos1;
-                   pos2 = pos2;
-               }else{
-                   pos1 += serv1Incr;
-                   pos2 -= serv1Incr;
-               }
+               arm3.setPower(-.15);
 
-            } else if (gamepad2.dpad_up){
-                if(pos1 - serv1Incr<0 || pos2 + serv1Incr>1) {
+               }else if (gamepad2.dpad_up){
+                  arm3.setPower(.15);
 
-                }else {
-                    pos1 -= serv1Incr;
-                    pos2 += serv1Incr;
+               } else {
+                    arm3.setPower(0);
+
 
                 }
             }
 
-            serv1.setPosition(pos1);
-            serv2.setPosition(pos2);
+
+
+
 
             telemetry.addData("Serv1 Pos: ", serv1.getPosition());
-            telemetry.addData("Serv2 Pos: ", serv2.getPosition());
-            telemetry.addData("ArmServ Pos: ", armserv.getPosition());
+           // telemetry.addData("Serv2 Pos: ", serv2.getPosition());
+          //  telemetry.addData("ArmServ Pos: ", armserv.getPosition());
+
             telemetry.update();
 
 
         }
-    }
+
 
     private void DriveTriBot(){
         double speed = .25 ;
@@ -260,7 +277,9 @@ public class SeniorstriangleRobot extends LinearOpMode {
             }
         leftMotor.setPower(motor1pow);
         rightMotor.setPower(motor2pow);
-        thirdMotor.setPower(motor3pow);
+
+       // thirdMotor.setPower(motor3pow);
+
 
     }
     public void rotateBot(){
@@ -270,13 +289,17 @@ public class SeniorstriangleRobot extends LinearOpMode {
             while (gamepad1.left_bumper) {
                 leftMotor.setPower(-speed);
                 rightMotor.setPower(speed);
-                thirdMotor.setPower(speed);
+
+               // thirdMotor.setPower(speed);
+
             }
         } else if(gamepad1.right_bumper){
             while(gamepad1.right_bumper) {
                 leftMotor.setPower(speed);//counter
                 rightMotor.setPower(-speed);//counter
-                thirdMotor.setPower(-speed);//clock
+
+               // thirdMotor.setPower(-speed);//clock
+
             }
         }
     }
@@ -292,20 +315,22 @@ public class SeniorstriangleRobot extends LinearOpMode {
             rightMotor.setPower(powahhhhhh);
         }else if(gamepad1.dpad_left){
             leftMotor.setPower(powah);
-            thirdMotor.setPower(powah);
+
+           // thirdMotor.setPower(powah);
         }else if(gamepad1.dpad_right){
-            thirdMotor.setPower(-powah);
+          //  thirdMotor.setPower(-powah);
             rightMotor.setPower(powah);
 
         }else if(Math.abs(gamepad1.right_trigger) > 0){
-            thirdMotor.setPower(-powah);
+           // thirdMotor.setPower(-powah);
             leftMotor.setPower(-powah);
         } else if(Math.abs(gamepad1.left_trigger) >0 ){
-            thirdMotor.setPower(powah);
+          //  thirdMotor.setPower(powah);
             rightMotor.setPower(-powah);
         }
         else {
-            thirdMotor.setPower(0);
+           // thirdMotor.setPower(0);
+
             leftMotor.setPower(0);
             rightMotor.setPower(0);
         }

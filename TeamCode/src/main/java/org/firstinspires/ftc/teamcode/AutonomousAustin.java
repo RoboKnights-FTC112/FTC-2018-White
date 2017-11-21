@@ -59,6 +59,7 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
  */
 
 @Disabled@Autonomous(name="K9bot: Telop Tank", group="K9bot")
+
 public class AutonomousAustin extends LinearOpMode {
 
     /* Declare OpMode members. */

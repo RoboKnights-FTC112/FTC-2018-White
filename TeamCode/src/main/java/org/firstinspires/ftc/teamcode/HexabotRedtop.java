@@ -53,10 +53,12 @@ public class HexabotRedtop extends LinearOpMode {
     public DcMotor armMotor2 = null;
     public Servo sensorArmB = null;
     public Servo sensorArmR = null;
+
     @Override
     public void runOpMode() {
         double left = 0;
         double right = 0;
+
         double up = .5;
 
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
@@ -71,11 +73,13 @@ public class HexabotRedtop extends LinearOpMode {
         double clawpo = claw.getPosition();
         double clawpo2 = claw2.getPosition();
 
+
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+
 
 
         // run until the end of the match (driver presses STOP)
@@ -108,6 +112,7 @@ public class HexabotRedtop extends LinearOpMode {
             claw2.setPosition(.1);
             claw.setPosition(.9);
             driveDistance(-.2,-600);
+
 
 
 
