@@ -57,6 +57,7 @@ public class HexabotDrivewithArm extends LinearOpMode {
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
         armMotor = hardwareMap.dcMotor.get("armmotor");
+
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         claw = hardwareMap.servo.get("claw");
@@ -87,6 +88,7 @@ public class HexabotDrivewithArm extends LinearOpMode {
                 leftMotor.setPower(left*.7);
                 rightMotor.setPower(right*.7);
             }
+
 
                 armMotor.setPower(up * .2);
 

@@ -58,7 +58,8 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="K9bot: Telop Tank", group="K9bot")
+@Disabled@Autonomous(name="K9bot: Telop Tank", group="K9bot")
+
 public class AutonomousAustin extends LinearOpMode {
 
     /* Declare OpMode members. */

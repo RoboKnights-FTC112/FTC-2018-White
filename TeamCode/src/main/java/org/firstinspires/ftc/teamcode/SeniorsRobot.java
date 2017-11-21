@@ -54,7 +54,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Senior drive", group="Senior")
+@Disabled@TeleOp(name="Senior drive", group="Senior")
+
 
 public class SeniorsRobot extends LinearOpMode {
 

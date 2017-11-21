@@ -39,7 +39,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
- @TeleOp(name="Hexabot drive", group="K9bot")
+
+@Disabled @TeleOp(name="Hexabot drive", group="K9bot")
+
 public class HexabotDrive extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -71,6 +73,7 @@ public class HexabotDrive extends LinearOpMode {
         while (opModeIsActive()) {
 
             // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
+
             left = -gamepad1.left_stick_y;
             right = -gamepad1.right_stick_y;
              leftMotor.setPower(left*1);
@@ -79,6 +82,7 @@ public class HexabotDrive extends LinearOpMode {
                 leftMotor.setPower(left*.95);
                 rightMotor.setPower(right*.95);
             }
+
 
         }
     }

@@ -51,9 +51,11 @@ public class Hexabotredcorner extends LinearOpMode {
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
     public DcMotor armMotor = null;
+
     public Servo mover = null;
     public Servo mover2 = null;
     NormalizedColorSensor colorSensor;
+
     //public ColorSensor colorSensor = null;
 
     @Override
@@ -65,6 +67,7 @@ public class Hexabotredcorner extends LinearOpMode {
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
         armMotor = hardwareMap.dcMotor.get("armmotor");
+
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         mover = hardwareMap.servo.get("mover");
@@ -73,6 +76,7 @@ public class Hexabotredcorner extends LinearOpMode {
         double moverpo2 = mover2.getPosition();
         mover.setPosition(moverpo);
         mover2.setPosition(moverpo2);
+
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
 
@@ -81,6 +85,7 @@ public class Hexabotredcorner extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         if (opModeIsActive()) {
+
             NormalizedRGBA colors = colorSensor.getNormalizedColors();
             //move left arm down
             if (colors.blue>=.007 && colors.red<.002) {
@@ -92,6 +97,7 @@ public class Hexabotredcorner extends LinearOpMode {
             turnright90(.25);
             driveDistance(.25,900);
             driveDistance(-.7,-600);
+
 
         }
     }

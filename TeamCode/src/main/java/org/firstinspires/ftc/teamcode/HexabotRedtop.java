@@ -45,19 +45,34 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class HexabotRedtop extends LinearOpMode {
 
-    /* Declare OpMode members. */
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
-    //public ColorSensor colorSensor = null;
+    public DcMotor armMotor = null;
+    public Servo claw = null;
+    public Servo claw2 = null;
+    public DcMotor armMotor2 = null;
+    public Servo sensorArmB = null;
+    public Servo sensorArmR = null;
 
     @Override
     public void runOpMode() {
         double left = 0;
         double right = 0;
+
+        double up = .5;
+
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
-
+        armMotor = hardwareMap.dcMotor.get("armmotor");
+        armMotor2 = hardwareMap.dcMotor.get("armmotor2");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        sensorArmB=hardwareMap.servo.get("servoB");
+        sensorArmR=hardwareMap.servo.get("servoR");
+        claw = hardwareMap.servo.get("claw");
+        claw2 = hardwareMap.servo.get("claw2");
+        double clawpo = claw.getPosition();
+        double clawpo2 = claw2.getPosition();
+
 
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
@@ -65,22 +80,41 @@ public class HexabotRedtop extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
+
+
         // run until the end of the match (driver presses STOP)
         if (opModeIsActive()) {
 
-            //driveUntilGrey(.25);
+
             //NormalizedRGBA colors = colorSensor.getNormalizedColors();
             //@ColorInt int color = colors.toColor();
             //telemetry.addLine("color: ")
-             //       .addData("a", "%02x", Color.alpha(color))
-               //     .addData("r", "%02x", Color.red(color))
-                 //   .addData("g", "%02x", Color.green(color))
-             //       .addData("b", "%02x", Color.blue(color));
+            //       .addData("a", "%02x", Color.alpha(color))
+            //     .addData("r", "%02x", Color.red(color))
+            //   .addData("g", "%02x", Color.green(color))
+            //       .addData("b", "%02x", Color.blue(color));
             //telemetry.update();
             //sleep(5000);
-            driveDistance(.25,3750);
+
+            claw.setPosition(.4);
+            claw2.setPosition(.6);
+            sleep(200);
+            armMotor.setPower(.2);
+            armMotor2.setPower(-.2);
+            sleep(900);
+            armMotor.setPower(0);
+            armMotor2.setPower(0);
+            driveDistance(.25,2750);
             turnleft90(.25);
-            driveDistance(.25,1000);
+
+            turnright90(.25);
+            driveDistance(.25,200);
+            claw2.setPosition(.1);
+            claw.setPosition(.9);
+            driveDistance(-.2,-600);
+
+
+
 
 
         }
