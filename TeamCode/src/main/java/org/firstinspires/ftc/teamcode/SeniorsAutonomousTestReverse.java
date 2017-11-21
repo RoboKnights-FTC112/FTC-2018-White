@@ -34,7 +34,7 @@ package org.firstinspires.ftc.teamcode;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -55,8 +55,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Disabled
-@Autonomous(name="Autonomous Test Reverse", group="Seniors")
+@Disabled @Autonomous(name="Autonomous Test Reverse", group="Seniors")
 
 public class SeniorsAutonomousTestReverse extends LinearOpMode {
 
