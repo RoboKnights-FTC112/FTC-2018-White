@@ -47,9 +47,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Disabled
 
-@Autonomous(name="colorsensor", group="Senior")
+
+@Autonomous(name="colorsensOr", group="Senior")
 
 public class ColorSensorTest extends LinearOpMode {
     NormalizedColorSensor colorSensor;
