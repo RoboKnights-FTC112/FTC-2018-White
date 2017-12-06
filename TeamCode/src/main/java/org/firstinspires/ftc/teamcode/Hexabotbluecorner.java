@@ -56,6 +56,7 @@ public class    Hexabotbluecorner extends LinearOpMode {
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
     public DcMotor armMotor = null;
+    public DcMotor armMotor2 = null;
     public Servo claw = null;
     public Servo claw2 = null;
 
@@ -72,7 +73,7 @@ public class    Hexabotbluecorner extends LinearOpMode {
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
         armMotor = hardwareMap.dcMotor.get("armmotor");
-
+        armMotor2 = hardwareMap.dcMotor.get("armmotor2");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         sensorArmB=hardwareMap.servo.get("servoB");
         sensorArmR=hardwareMap.servo.get("servoR");
@@ -107,25 +108,70 @@ public class    Hexabotbluecorner extends LinearOpMode {
             //telemetry.update();
             //sleep(5000);
 
-            sensorArmB.setPosition(.1 );
+            sensorArmB.setPosition(.39 );
             sleep(1500);
-            if (colors.blue > .007 && colors.red<.001) {
-                driveDistance(.2,500);
+            telemetry.addData("Blue Value", colors.blue);
+            telemetry.addData("Red Value", colors.red);
+            sensorArmR.setPosition(1);
+            telemetry.update();
+            sleep(1500);
+            if (colors.blue > .007) {
+                telemetry.addData("In the", "IF");
+                telemetry.update();
+                driveDistance(.2,300);
                 sleep(500);
-                sensorArmB.setPosition(.7);
+                sensorArmB.setPosition(1);
+                driveDistance(-.2,-300);
 
-                driveDistance(.2,3270);//3770
+                claw2.setPosition(.1);
+                claw.setPosition(.9);
+                sleep(1000);
+                driveDistance(.2,700);
+                claw.setPosition(.4);
+                claw2.setPosition(.6);
+                sleep(200);
+                armMotor. setPower(.2);
+                armMotor2.setPower(-.2);
 
+                driveDistance(.2,3070);
+            }
+            else if (colors.red > .009){
+                telemetry.addData("In the ", "else if");
+                telemetry.update();
+                driveDistance(-.2,-300);
+                sleep(1000);
+                claw2.setPosition(.1);
+                claw.setPosition(.9);
+                sensorArmB.setPosition(.9);
+                sleep(1000);
+                driveDistance(.7,300);
+                claw.setPosition(.4);
+                claw2.setPosition(.6);
+                sleep(200);
+                armMotor. setPower(.3);
+                armMotor2.setPower(-.3);
+
+                driveDistance(.2,3770);
+                armMotor.setPower(0);
+                armMotor2.setPower(0);
             }
             else {
-                driveDistance(-.2,500);
+                claw2.setPosition(.1);
+                claw.setPosition(.9);
+                sensorArmB.setPosition(.9);
                 sleep(1000);
+                claw.setPosition(.4);
+                claw2.setPosition(.6);
+                sleep(200);
+                armMotor. setPower(.3);
+                armMotor2.setPower(-.3);
 
-                sensorArmB.setPosition(.7);
+                driveDistance(.2,3770);
+                armMotor.setPower(0);
+                armMotor2.setPower(0);
 
-                driveDistance(.2,4270);
             }
-            sensorArmB.setPosition(num);
+            sensorArmB.setPosition(1);
 
 
 
@@ -133,6 +179,8 @@ public class    Hexabotbluecorner extends LinearOpMode {
             driveDistance(.2,900);
             claw2.setPosition(.1);
             claw.setPosition(.9);
+            armMotor.setPower(0);
+            armMotor2.setPower(0);
             driveDistance(-.2,-600);
 
 

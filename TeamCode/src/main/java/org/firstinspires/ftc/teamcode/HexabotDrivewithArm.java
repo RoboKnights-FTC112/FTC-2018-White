@@ -44,9 +44,12 @@ public class HexabotDrivewithArm extends LinearOpMode {
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
     public DcMotor armMotor = null;
-
+    public DcMotor armMotor2 = null;
     public Servo claw = null;
     public Servo claw2 = null;
+    public Servo sensorArmB = null;
+    public Servo sensorArmR = null;
+
     //public ColorSensor colorSensor = null;
 
     @Override
@@ -57,17 +60,19 @@ public class HexabotDrivewithArm extends LinearOpMode {
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
         armMotor = hardwareMap.dcMotor.get("armmotor");
-
+        armMotor2 = hardwareMap.dcMotor.get("armmotor2");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        sensorArmB=hardwareMap.servo.get("servoB");
+        sensorArmR=hardwareMap.servo.get("servoR");
 
         claw = hardwareMap.servo.get("claw");
         claw2 = hardwareMap.servo.get("claw2");
         double clawpo = .9;
         double clawpo2 = .1;
-        claw.setPosition(clawpo);
-        claw2.setPosition(clawpo2);
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
+        sensorArmB.setPosition(.9);
+        sensorArmR.setPosition(.05);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -85,11 +90,13 @@ public class HexabotDrivewithArm extends LinearOpMode {
             leftMotor.setPower(left*.25);
             rightMotor.setPower(right*.25);
             if (gamepad1.a == true && opModeIsActive()) {
-                leftMotor.setPower(left*.7);
-                rightMotor.setPower(right*.7);
+                leftMotor.setPower(left*.5);
+                rightMotor.setPower(right*.5);
             }
 
-                armMotor.setPower(up * .7 );
+
+                armMotor.setPower(up * .3);
+                armMotor2.setPower( up *.3);
 
            /* if (gamepad2.y == true && opModeIsActive()) {
                 moveUpDistance(.25);
@@ -123,9 +130,9 @@ public class HexabotDrivewithArm extends LinearOpMode {
             }
             if (gamepad2.x==true && opModeIsActive()) {
                 claw.setPosition(.9);
-                claw2.setPosition(.1);
+                claw2.setPosition(.3);
                 clawpo = .9;
-                clawpo2 = .1;
+                clawpo2 = .3;
 
             }
             if (gamepad2.y==true && opModeIsActive()) {
