@@ -89,8 +89,7 @@ public class HexabotDrivewithArm extends LinearOpMode {
                 rightMotor.setPower(right*.7);
             }
 
-
-                armMotor.setPower(up * .2);
+                armMotor.setPower(up * .7 );
 
            /* if (gamepad2.y == true && opModeIsActive()) {
                 moveUpDistance(.25);
