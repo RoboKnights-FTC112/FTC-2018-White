@@ -76,8 +76,7 @@ public class VuforiaTest1 extends LinearOpMode
 
     VuforiaLocalizer vuforia;
 
-    public void runOpMode()
-    {
+    public void runOpMode() {
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
@@ -92,56 +91,27 @@ public class VuforiaTest1 extends LinearOpMode
 
         relicTrackables.activate(); // Activate Vuforia
 
-        while (opModeIsActive())
-        {
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            if (vuMark != RelicRecoveryVuMark.UNKNOWN) { // Test to see if image is visable
-                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose(); // Get Positional value to use later
-                telemetry.addData("Pose", format(pose));
-                if (pose != null)
-                {
-                    VectorF trans = pose.getTranslation();
-                    Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+        //while (opModeisActive())
 
-                    // Extract the X, Y, and Z components of the offset of the target relative to the robot
-                    tX = trans.get(0);
-                    tY = trans.get(1);
-                    tZ = trans.get(2);
+    } //ends run op mode method
+            public static int theRatcliffMuchExperience(VuforiaTrackable relicTemplate) {
+                RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+                while (vuMark == RelicRecoveryVuMark.UNKNOWN) { // Test to see if image is visable
+                    //TODO: add timeout with timer
+                    vuMark = RelicRecoveryVuMark.from(relicTemplate);
+                    }
+                    if (vuMark == RelicRecoveryVuMark.LEFT) {// Test to see if Image is the "LEFT" image and display value.
+                        return 0;
 
-                    // Extract the rotational components of the target relative to the robot. NOTE: VERY IMPORTANT IF BASING MOVEMENT OFF OF THE IMAGE!!!!
-                    rX = rot.firstAngle;
-                    rY = rot.secondAngle;
-                    rZ = rot.thirdAngle;
-                }
-                if (vuMark == RelicRecoveryVuMark.LEFT)
-                { // Test to see if Image is the "LEFT" image and display value.
-                    telemetry.addData("VuMark is", "Left");
-                    telemetry.addData("X =", tX);
-                    telemetry.addData("Y =", tY);
-                    telemetry.addData("Z =", tZ);
-                } else if (vuMark == RelicRecoveryVuMark.RIGHT)
-                { // Test to see if Image is the "RIGHT" image and display values.
-                    telemetry.addData("VuMark is", "Right");
-                    telemetry.addData("X =", tX);
-                    telemetry.addData("Y =", tY);
-                    telemetry.addData("Z =", tZ);
-                } else if (vuMark == RelicRecoveryVuMark.CENTER)
-                { // Test to see if Image is the "CENTER" image and display values.
-                    telemetry.addData("VuMark is", "Center");
-                    telemetry.addData("X =", tX);
-                    telemetry.addData("Y =", tY);
-                    telemetry.addData("Z =", tZ);
+                    } else if (vuMark == RelicRecoveryVuMark.RIGHT) { // Test to see if Image is the "RIGHT" image and display values.
+                        return 1;
+                    } else if (vuMark == RelicRecoveryVuMark.CENTER) { // Test to see if Image is the "CENTER" image and display values.
+                        return 2;
 
-                }
-            } else
-            {
-                telemetry.addData("VuMark", "not visible");
-            }
-            telemetry.update();
-        }
-    }
-    String format(OpenGLMatrix transformationMatrix)
-    {
-        return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
-    }
-}
+                    } else return -1;
+                } //ends metnod
+                //telemetry.update();
+
+
+
+} // ends class?
