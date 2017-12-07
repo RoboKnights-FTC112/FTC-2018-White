@@ -89,14 +89,19 @@ public class HexabotDrivewithArm extends LinearOpMode {
             up = -gamepad2.right_stick_y;
             leftMotor.setPower(left*.25);
             rightMotor.setPower(right*.25);
+            if (gamepad2.left_bumper == true) {
+                sensorArmR.setPosition(.05 );
+                sensorArmB.setPosition(0);
+
+            }
             if (gamepad1.a == true && opModeIsActive()) {
                 leftMotor.setPower(left*.5);
                 rightMotor.setPower(right*.5);
             }
 
 
-                armMotor.setPower(up * .3);
-                armMotor2.setPower( up *.3);
+                armMotor.setPower(up * .2);
+                armMotor2.setPower( up *.2);
 
            /* if (gamepad2.y == true && opModeIsActive()) {
                 moveUpDistance(.25);
@@ -117,9 +122,9 @@ public class HexabotDrivewithArm extends LinearOpMode {
                 telemetry.addData("servo2:", clawpo2);    //
                 telemetry.update();
             }
-            if (gamepad2.b == true && opModeIsActive()) { //both arms close
+            if (gamepad2.b == true && opModeIsActive()) { //both arms
+                clawpo = Math.max(.3,clawpo);//close
                 clawpo -= .01;
-                clawpo = Math.max(.3,clawpo);
                 clawpo2+=.01;
                 clawpo2=Math.min(1,clawpo2);
                 claw.setPosition(clawpo);
@@ -143,7 +148,7 @@ public class HexabotDrivewithArm extends LinearOpMode {
 
             }
 
-            }
+        }
 
 
     }public void moveDownDistance (double speed) {

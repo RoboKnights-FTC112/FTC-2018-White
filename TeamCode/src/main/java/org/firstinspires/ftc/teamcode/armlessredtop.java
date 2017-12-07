@@ -32,26 +32,19 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-import android.support.annotation.ColorInt;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.SwitchableLight;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="bluecorner", group="Senior")
+@Autonomous(name="armlessredtop", group="Senior")
 
-public class    Hexabotbluecorner extends LinearOpMode {
+public class armlessredtop extends LinearOpMode {
 
-    /* Declare OpMode members. */
-    NormalizedColorSensor colorSensorB;
+    NormalizedColorSensor colorSensorR;
 
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
@@ -68,7 +61,7 @@ public class    Hexabotbluecorner extends LinearOpMode {
         double left = 0;
         double right = 0;
         double up = .5;
-        colorSensorB = hardwareMap.get(NormalizedColorSensor.class, "colorSensor");
+        colorSensorR = hardwareMap.get(NormalizedColorSensor.class, "colorSensorR");
 
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
@@ -94,108 +87,104 @@ public class    Hexabotbluecorner extends LinearOpMode {
             claw2.setPosition(.6);
 
             //sleep(200);
-           // armMotor.setPower(.2);
+            // armMotor.setPower(.2);
             //armMotor2.setPower(-.2);
             //sleep(900);
             //armMotor.setPower(0);
             //armMotor2.setPower(0);
-            NormalizedRGBA colors = colorSensorB.getNormalizedColors();
-                  //  colorSensorB.addData("a", "%02x", Color.alpha(color))
+            NormalizedRGBA colors = colorSensorR.getNormalizedColors();
+            //  colorSensorB.addData("a", "%02x", Color.alpha(color))
 
-               //     .addData("r", "%02x", Color.red(color))
-                 //   .addData("g", "%02x", Color.green(color))
-             //       .addData("b", "%02x", Color.blue(color));
+            //     .addData("r", "%02x", Color.red(color))
+            //   .addData("g", "%02x", Color.green(color))
+            //       .addData("b", "%02x", Color.blue(color));
             //telemetry.update();
             //sleep(5000);
 
-            sensorArmB.setPosition(.25 );
+            sensorArmR.setPosition(.7 );
             sleep(1500);
             telemetry.addData("Blue Value", colors.blue);
             telemetry.addData("Red Value", colors.red);
-            sensorArmR.setPosition(.05);
+            sensorArmB.setPosition(.8);
             telemetry.update();
             sleep(1500);
-            if (colors.blue > .007) {
+            if (colors.red > .007) {
                 telemetry.addData("In the", "IF");
                 telemetry.update();
-                driveDistance(.2,300);
+                driveDistance(.2,500);
                 sleep(500);
-                sensorArmB.setPosition(1);
-                driveDistance(-.2,-300);
+                sensorArmR.setPosition(.05);
+                driveDistance(-.2,-500);
 
-                claw2.setPosition(.3);
-                claw.setPosition(.9);
+        //        claw2.setPosition(.3);
+        //        claw.setPosition(.9);
                 sleep(1000);
                 driveDistance(.2,700);
-                claw.setPosition(.4);
-                claw2.setPosition(.6);
+          //      claw.setPosition(.4);
+          //      claw2.setPosition(.6);
                 sleep(200);
                 armMotor. setPower(.2);
                 armMotor2.setPower(.2);
-                sleep(900);
+                sleep(1100);
                 armMotor.setPower(0);
                 armMotor2.setPower(0);
 
-                driveDistance(.2,3070);
+                driveDistance(.2,2070);
             }
-            else if (colors.red > .009){
+            else if (colors.blue > .007){
                 telemetry.addData("In the ", "else if");
                 telemetry.update();
                 driveDistance(-.2,-300);
                 sleep(1000);
-                 sensorArmB.setPosition(.9);
+                sensorArmR.setPosition(.05);
                 sleep(1000);
                 driveDistance(.7,300);
-                claw2.setPosition(.3);
-                claw.setPosition(.9);
+            //    claw2.setPosition(.3);
+            //    claw.setPosition(.9);
                 sleep(1000);
                 driveDistance(.2,700);
-                claw.setPosition(.4);
-                claw2.setPosition(.6);
+           //     claw.setPosition(.4);
+           //     claw2.setPosition(.6);
                 sleep(200);
                 armMotor. setPower(.2);
                 armMotor2.setPower(.2);
-                sleep(900);
+                sleep(1100);
                 armMotor.setPower(0);
                 armMotor2.setPower(0);
-                driveDistance(.2,3070);
+                driveDistance(.2,2070);
             }
             else {
-
-                sensorArmB.setPosition(.9);
+                sensorArmR.setPosition(.05);
                 sleep(1000);
-                claw2.setPosition(.3);
-                claw.setPosition(.9);
+             //   claw2.setPosition(.3);
+             //   claw.setPosition(.9);
                 sleep(1000);
                 driveDistance(.2,700);
-                claw.setPosition(.4);
-                claw2.setPosition(.6);
+            //    claw.setPosition(.4);
+            //    claw2.setPosition(.6);
                 sleep(200);
                 armMotor. setPower(.2);
                 armMotor2.setPower(.2);
-                sleep(900);
+                sleep(1100);
                 armMotor.setPower(0);
                 armMotor2.setPower(0);
-                driveDistance(.2,3070);
-
+                driveDistance(.2,2070);
             }
-            sensorArmB.setPosition(.8);
+            sensorArmR.setPosition(.05);
 
 
 
             turnleft90(.2);
-            driveDistance(.2,400);
-            claw2.setPosition(.3);
-            claw.setPosition(.9);
+
+            // claw2.setPosition(.3);
+            // claw.setPosition(.9);
             armMotor.setPower(0);
             armMotor2.setPower(0);
-            driveDistance(-.2,-600);
 
 
 
         }
     }
-
     public void turnleft90 (double speed) {
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -268,10 +257,10 @@ public class    Hexabotbluecorner extends LinearOpMode {
             leftMotor.setPower(speed);
             rightMotor.setPower(speed);
 
-        ElapsedTime time = new ElapsedTime();
-        time.reset();
-        while ((leftMotor.isBusy() && rightMotor.isBusy()) && opModeIsActive() && time.seconds() < 4){
-            telemetry.addData("Left Loop Current", leftMotor.getCurrentPosition());
+            ElapsedTime time = new ElapsedTime();
+            time.reset();
+            while ((leftMotor.isBusy() || rightMotor.isBusy()) && opModeIsActive() && time.seconds() < 4){
+                telemetry.addData("Left Loop Current", leftMotor.getCurrentPosition());
                 telemetry.addData("Left Loop Target", leftMotor.getTargetPosition());
                 telemetry.addData("Right Loop Current", rightMotor.getCurrentPosition());
                 telemetry.addData("Right Loop Target", rightMotor.getTargetPosition());  //
@@ -330,6 +319,5 @@ public class    Hexabotbluecorner extends LinearOpMode {
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-
 
 }

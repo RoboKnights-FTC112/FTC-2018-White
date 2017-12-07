@@ -32,34 +32,22 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-import android.support.annotation.ColorInt;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
-import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.SwitchableLight;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="bluecorner", group="Senior")
+@Autonomous(name="AHHH", group="Senior")
 
-public class    Hexabotbluecorner extends LinearOpMode {
-
-    /* Declare OpMode members. */
-    NormalizedColorSensor colorSensorB;
+public class WHAT extends LinearOpMode {
 
     public DcMotor leftMotor   = null;
     public DcMotor  rightMotor  = null;
     public DcMotor armMotor = null;
-    public DcMotor armMotor2 = null;
     public Servo claw = null;
     public Servo claw2 = null;
-
+    public DcMotor armMotor2 = null;
     public Servo sensorArmB = null;
     public Servo sensorArmR = null;
 
@@ -67,8 +55,8 @@ public class    Hexabotbluecorner extends LinearOpMode {
     public void runOpMode() {
         double left = 0;
         double right = 0;
+
         double up = .5;
-        colorSensorB = hardwareMap.get(NormalizedColorSensor.class, "colorSensor");
 
         leftMotor   = hardwareMap.dcMotor.get("left_drive");
         rightMotor  = hardwareMap.dcMotor.get("right_drive");
@@ -81,146 +69,29 @@ public class    Hexabotbluecorner extends LinearOpMode {
         claw2 = hardwareMap.servo.get("claw2");
         double clawpo = claw.getPosition();
         double clawpo2 = claw2.getPosition();
-        double num = sensorArmB.getPosition();
+
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
+
         // run until the end of the match (driver presses STOP)
         if (opModeIsActive()) {
-            claw.setPosition(.4);
-            claw2.setPosition(.6);
 
-            //sleep(200);
-           // armMotor.setPower(.2);
-            //armMotor2.setPower(-.2);
-            //sleep(900);
-            //armMotor.setPower(0);
-            //armMotor2.setPower(0);
-            NormalizedRGBA colors = colorSensorB.getNormalizedColors();
-                  //  colorSensorB.addData("a", "%02x", Color.alpha(color))
-
+            //driveUntilGrey(.25);
+            //NormalizedRGBA colors = colorSensor.getNormalizedColors();
+            //@ColorInt int color = colors.toColor();
+            //telemetry.addLine("color: ")
+             //       .addData("a", "%02x", Color.alpha(color))
                //     .addData("r", "%02x", Color.red(color))
                  //   .addData("g", "%02x", Color.green(color))
              //       .addData("b", "%02x", Color.blue(color));
             //telemetry.update();
             //sleep(5000);
-
-            sensorArmB.setPosition(.25 );
-            sleep(1500);
-            telemetry.addData("Blue Value", colors.blue);
-            telemetry.addData("Red Value", colors.red);
-            sensorArmR.setPosition(.05);
-            telemetry.update();
-            sleep(1500);
-            if (colors.blue > .007) {
-                telemetry.addData("In the", "IF");
-                telemetry.update();
-                driveDistance(.2,300);
-                sleep(500);
-                sensorArmB.setPosition(1);
-                driveDistance(-.2,-300);
-
-                claw2.setPosition(.3);
-                claw.setPosition(.9);
-                sleep(1000);
-                driveDistance(.2,700);
-                claw.setPosition(.4);
-                claw2.setPosition(.6);
-                sleep(200);
-                armMotor. setPower(.2);
-                armMotor2.setPower(.2);
-                sleep(900);
-                armMotor.setPower(0);
-                armMotor2.setPower(0);
-
-                driveDistance(.2,3070);
-            }
-            else if (colors.red > .009){
-                telemetry.addData("In the ", "else if");
-                telemetry.update();
-                driveDistance(-.2,-300);
-                sleep(1000);
-                 sensorArmB.setPosition(.9);
-                sleep(1000);
-                driveDistance(.7,300);
-                claw2.setPosition(.3);
-                claw.setPosition(.9);
-                sleep(1000);
-                driveDistance(.2,700);
-                claw.setPosition(.4);
-                claw2.setPosition(.6);
-                sleep(200);
-                armMotor. setPower(.2);
-                armMotor2.setPower(.2);
-                sleep(900);
-                armMotor.setPower(0);
-                armMotor2.setPower(0);
-                driveDistance(.2,3070);
-            }
-            else {
-
-                sensorArmB.setPosition(.9);
-                sleep(1000);
-                claw2.setPosition(.3);
-                claw.setPosition(.9);
-                sleep(1000);
-                driveDistance(.2,700);
-                claw.setPosition(.4);
-                claw2.setPosition(.6);
-                sleep(200);
-                armMotor. setPower(.2);
-                armMotor2.setPower(.2);
-                sleep(900);
-                armMotor.setPower(0);
-                armMotor2.setPower(0);
-                driveDistance(.2,3070);
-
-            }
-            sensorArmB.setPosition(.8);
-
-
-
-            turnleft90(.2);
-            driveDistance(.2,400);
-            claw2.setPosition(.3);
-            claw.setPosition(.9);
-            armMotor.setPower(0);
-            armMotor2.setPower(0);
-            driveDistance(-.2,-600);
-
-
-
+            driveDistance(-.2,-200000);
         }
-    }
-
-    public void turnleft90 (double speed) {
-        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
-        rightMotor.setTargetPosition(2500);
-        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        rightMotor.setPower(speed);
-
-
-        while ((rightMotor.isBusy()) && opModeIsActive()){
-
-
-            //do anything
-            //we could spit out some telemetry about the encoder value
-        }
-        telemetry.addData("5th", "Hello Driver");    //
-        telemetry.update();
-
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
-        telemetry.addData("6th", "Hello Driver");    //
-        telemetry.update();
-
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void turnright90 (double speed) {
@@ -249,6 +120,32 @@ public class    Hexabotbluecorner extends LinearOpMode {
 
             leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
+    public void turnleft90 (double speed) {
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+        rightMotor.setTargetPosition(2500);
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        rightMotor.setPower(speed);
+
+
+        while ((rightMotor.isBusy()) && opModeIsActive()){
+
+
+            //do anything
+            //we could spit out some telemetry about the encoder value
+        }
+        telemetry.addData("5th", "Hello Driver");    //
+        telemetry.update();
+
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
+        telemetry.addData("6th", "Hello Driver");    //
+        telemetry.update();
+
+        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
     public void drive(double speed){
             if (opModeIsActive()){
                 leftMotor.setPower(speed);
@@ -270,7 +167,7 @@ public class    Hexabotbluecorner extends LinearOpMode {
 
         ElapsedTime time = new ElapsedTime();
         time.reset();
-        while ((leftMotor.isBusy() && rightMotor.isBusy()) && opModeIsActive() && time.seconds() < 4){
+        while ((leftMotor.isBusy() || rightMotor.isBusy()) && opModeIsActive() && time.seconds() < 4){
             telemetry.addData("Left Loop Current", leftMotor.getCurrentPosition());
                 telemetry.addData("Left Loop Target", leftMotor.getTargetPosition());
                 telemetry.addData("Right Loop Current", rightMotor.getCurrentPosition());
@@ -330,6 +227,5 @@ public class    Hexabotbluecorner extends LinearOpMode {
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-
 
 }
