@@ -71,8 +71,7 @@ public class HexabotDrivewithArm extends LinearOpMode {
         double clawpo2 = .1;
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
-        sensorArmB.setPosition(.9);
-        sensorArmR.setPosition(.05);
+
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -90,8 +89,9 @@ public class HexabotDrivewithArm extends LinearOpMode {
             leftMotor.setPower(left*.25);
             rightMotor.setPower(right*.25);
             if (gamepad2.left_bumper == true) {
-                sensorArmR.setPosition(.05 );
-                sensorArmB.setPosition(0);
+
+                sensorArmB.setPosition(.9);
+                sensorArmR.setPosition(.05);
 
             }
             if (gamepad1.a == true && opModeIsActive()) {
@@ -111,40 +111,23 @@ public class HexabotDrivewithArm extends LinearOpMode {
                moveUpDistance(-.25);
             }*/
 
-            if (gamepad2.a == true && opModeIsActive()) { //both arms open
-                clawpo+=.01;
-                clawpo=Math.min(1,clawpo);
-                clawpo2-=.01;
-                clawpo2=Math.max(.3,clawpo2);
-                claw.setPosition(clawpo);
-                claw2.setPosition(clawpo2);
-                telemetry.addData("servo1:", clawpo);    //
-                telemetry.addData("servo2:", clawpo2);    //
-                telemetry.update();
-            }
-            if (gamepad2.b == true && opModeIsActive()) { //both arms
-                clawpo = Math.max(.3,clawpo);//close
-                clawpo -= .01;
-                clawpo2+=.01;
-                clawpo2=Math.min(1,clawpo2);
-                claw.setPosition(clawpo);
-                claw2.setPosition(clawpo2);
-                telemetry.addData("servo1:", clawpo);
-                telemetry.addData("servo2:", clawpo2);    //
-                telemetry.update();
-            }
-            if (gamepad2.x==true && opModeIsActive()) {
-                claw.setPosition(.9);
-                claw2.setPosition(.3);
-                clawpo = .9;
-                clawpo2 = .3;
+            if (gamepad2.x==true && opModeIsActive()) {//open
+                claw.setPosition(.5);
+                claw2.setPosition(.5);
+                ;
+
+                sensorArmB.setPosition(.9);
+                sensorArmR.setPosition(.05);
+
 
             }
-            if (gamepad2.y==true && opModeIsActive()) {
-                claw.setPosition(.4);
-                claw2.setPosition(.6);
-                clawpo = .45;
-                clawpo2 = .65;
+            if (gamepad2.y==true && opModeIsActive()) {////close
+                claw.setPosition(.9);
+                claw2.setPosition(.1);
+
+                sensorArmB.setPosition(.9);
+                sensorArmR.setPosition(.05);
+
 
             }
 

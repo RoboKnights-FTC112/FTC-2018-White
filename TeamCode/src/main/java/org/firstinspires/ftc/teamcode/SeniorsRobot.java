@@ -54,7 +54,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Disabled@TeleOp(name="Senior drive", group="Senior")
+ @TeleOp(name="Toddler Driver", group="Senior")
 
 
 public class SeniorsRobot extends LinearOpMode {
@@ -65,15 +65,9 @@ public class SeniorsRobot extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        double left = 0;
-        double right = 0;
 
-        boolean dpadUp;
-        boolean dpadDown;
-        boolean dpadLeft;
-        boolean dpadRight;
-        leftMotor   = hardwareMap.dcMotor.get("leftdrive");
-        rightMotor  = hardwareMap.dcMotor.get("rightdrive");
+        leftMotor   = hardwareMap.dcMotor.get("left");
+        rightMotor  = hardwareMap.dcMotor.get("right");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
 
@@ -85,28 +79,46 @@ public class SeniorsRobot extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
+            double powRight = Math.abs(.75 * gamepad1.right_stick_y);
+            double powLeft = Math.abs(.75 * gamepad1.left_stick_y);
             // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-            if (gamepad1.a == true){
-                leftMotor.setPower(.5);
-                rightMotor.setPower(.5);
-            } else if (gamepad1.y == true){
-                leftMotor.setPower(-.5);
-                rightMotor.setPower(-.5);
-            }  else if (gamepad1.right_bumper == true){
-                leftMotor.setPower(.5);
-                rightMotor.setPower(-.5);
-            } else if (gamepad1.left_bumper == true){
-                leftMotor.setPower(-.5);
-                rightMotor.setPower(.5);
+            if (gamepad1.right_stick_y < 0 && gamepad1.left_stick_y < 0) { // move leftmotor forwards
+                leftMotor.setPower(powLeft);
+                rightMotor.setPower(powRight);
+            } else if (gamepad1.right_stick_y > 0 && gamepad1.left_stick_y > 0) {
+                leftMotor.setPower(-powLeft);
+                rightMotor.setPower(-powRight);
+            } else if (gamepad1.left_stick_y > 0 && gamepad1.right_stick_y < 0) {
+                leftMotor.setPower(-powLeft);
+                rightMotor.setPower(powRight);
+            } else if (gamepad1.left_stick_y < 0 && gamepad1.right_stick_y > 0) {
+                leftMotor.setPower(powLeft);
+                rightMotor.setPower(-powRight);
+            } else if (gamepad1.left_stick_y == 0 && gamepad1.right_stick_y > 0) {
+                rightMotor.setPower(-powRight);
+                leftMotor.setPower(powLeft);
+            } else if (gamepad1.left_stick_y == 0 && gamepad1.right_stick_y < 0) {
+                rightMotor.setPower(powRight);
+                leftMotor.setPower(powLeft);
+            } else if (gamepad1.right_stick_y == 0 && gamepad1.left_stick_y > 0) {
+                rightMotor.setPower(powRight);
+                leftMotor.setPower(-powLeft);
+            } else if (gamepad1.right_stick_y == 0 && gamepad1.left_stick_y < 0) {
+                rightMotor.setPower(powRight);
+                leftMotor.setPower(powLeft);
             } else {
-                left = -gamepad1.left_stick_y;
-                right = -gamepad1.right_stick_y;
-                leftMotor.setPower(left);
-                rightMotor.setPower(right);
+                leftMotor.setPower(0);
+                rightMotor.setPower(0);
             }
 
-            double liftSpeed = .05;
+            while (gamepad1.left_bumper && gamepad1.right_bumper){
+                leftMotor.setPower(1);
+                rightMotor.setPower(1);
+            } while(gamepad1.left_bumper) {
+                leftMotor.setPower(.5);
+            } while (gamepad1.right_bumper){
+                rightMotor.setPower(.5);
+            }
 
            // boolean dpadup = gamepad2.dpad_up;
 

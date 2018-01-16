@@ -96,16 +96,16 @@ public class VuforiaTest1 extends LinearOpMode
     } //ends run op mode method
             public static int theRatcliffMuchExperience(VuforiaTrackable relicTemplate) {
                 RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-                while (vuMark == RelicRecoveryVuMark.UNKNOWN) { // Test to see if image is visable
+                //while (vuMark == RelicRecoveryVuMark.UNKNOWN) { // Test to see if image is visable
                     //TODO: add timeout with timer
-                    vuMark = RelicRecoveryVuMark.from(relicTemplate);
-                    }
+                  //  vuMark = RelicRecoveryVuMark.from(relicTemplate);
+                    //}
                     if (vuMark == RelicRecoveryVuMark.LEFT) {// Test to see if Image is the "LEFT" image and display value.
                         return 0;
 
-                    } else if (vuMark == RelicRecoveryVuMark.RIGHT) { // Test to see if Image is the "RIGHT" image and display values.
+                    } else if (vuMark == RelicRecoveryVuMark.CENTER) { // Test to see if Image is the "RIGHT" image and display values.
                         return 1;
-                    } else if (vuMark == RelicRecoveryVuMark.CENTER) { // Test to see if Image is the "CENTER" image and display values.
+                    } else if (vuMark == RelicRecoveryVuMark.RIGHT) { // Test to see if Image is the "CENTER" image and display values.
                         return 2;
 
                     } else return -1;

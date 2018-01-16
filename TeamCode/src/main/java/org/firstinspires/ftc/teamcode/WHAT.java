@@ -58,17 +58,17 @@ public class WHAT extends LinearOpMode {
 
         double up = .5;
 
-        leftMotor   = hardwareMap.dcMotor.get("left_drive");
-        rightMotor  = hardwareMap.dcMotor.get("right_drive");
+        leftMotor = hardwareMap.dcMotor.get("left_drive");
+        rightMotor = hardwareMap.dcMotor.get("right_drive");
         armMotor = hardwareMap.dcMotor.get("armmotor");
         armMotor2 = hardwareMap.dcMotor.get("armmotor2");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        sensorArmB=hardwareMap.servo.get("servoB");
-        sensorArmR=hardwareMap.servo.get("servoR");
+        sensorArmB = hardwareMap.servo.get("servoB");
+        sensorArmR = hardwareMap.servo.get("servoR");
         claw = hardwareMap.servo.get("claw");
         claw2 = hardwareMap.servo.get("claw2");
-        double clawpo = claw.getPosition();
-        double clawpo2 = claw2.getPosition();
+        //   double clawpo = claw.getPosition();
+        //   double clawpo2 = claw2.getPosition();
 
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.update();
@@ -84,16 +84,50 @@ public class WHAT extends LinearOpMode {
             //NormalizedRGBA colors = colorSensor.getNormalizedColors();
             //@ColorInt int color = colors.toColor();
             //telemetry.addLine("color: ")
-             //       .addData("a", "%02x", Color.alpha(color))
-               //     .addData("r", "%02x", Color.red(color))
-                 //   .addData("g", "%02x", Color.green(color))
-             //       .addData("b", "%02x", Color.blue(color));
+            //       .addData("a", "%02x", Color.alpha(color))
+            //     .addData("r", "%02x", Color.red(color))
+            //   .addData("g", "%02x", Color.green(color))
+            //       .addData("b", "%02x", Color.blue(color));
             //telemetry.update();
             //sleep(5000);
-            driveDistance(-.2,-200000);
+            // driveDistance(-.2,-200000);
+            claw.setPosition(.9);
+            claw2.setPosition(.1);
+            sleep(20000);
         }
     }
+    public void he (double clawpo, double clawpo2) {
+        if (gamepad2.a == true && opModeIsActive()) { //both arms open
+            clawpo+=.01;
+            clawpo=Math.min(1,clawpo);
+            clawpo2-=.01;
+            clawpo2=Math.max(.3,clawpo2);
+            claw.setPosition(clawpo);
+            claw2.setPosition(clawpo2);
+            telemetry.addData("servo1:", clawpo);    //
+            telemetry.addData("servo2:", clawpo2);    //
+            telemetry.update();
 
+            sensorArmB.setPosition(.9);
+            sensorArmR.setPosition(.05);
+
+        }
+        if (gamepad2.b == true && opModeIsActive()) { //both arms
+            clawpo = Math.max(.3,clawpo);//close
+            clawpo -= .01;
+            clawpo2+=.01;
+            clawpo2=Math.min(1,clawpo2);
+            claw.setPosition(clawpo);
+            claw2.setPosition(clawpo2);
+            telemetry.addData("servo1:", clawpo);
+            telemetry.addData("servo2:", clawpo2);    //
+            telemetry.update();
+
+            sensorArmB.setPosition(.9);
+            sensorArmR.setPosition(.05);
+
+        }
+    }
     public void turnright90 (double speed) {
            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
