@@ -192,11 +192,13 @@ public class vuforiabluecorner extends LinearOpMode {
         claw2.setPosition(.6 );
 
     }
+
     public void closeClaw() {
         claw.setPosition(.9);//close claw
         claw2.setPosition(.1);
 
     }
+
     public int vuforiaM (VuforiaTrackable relicTemplate) {
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         //while (vuMark == RelicRecoveryVuMark.UNKNOWN) { // Test to see if image is visable
@@ -212,7 +214,7 @@ public class vuforiabluecorner extends LinearOpMode {
             return 2;
 
         } else return -1;
-    } //ends metnod
+    }
 
     public void turnleft (double speed, int distance) {
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -274,68 +276,13 @@ public class vuforiabluecorner extends LinearOpMode {
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void turnright (double speed, int distance) {
-        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
-
-        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftMotor.setTargetPosition(distance);
-
-        leftMotor.setPower(speed);
-
-        ElapsedTime time = new ElapsedTime();
-        time.reset();
-        while ((leftMotor.isBusy()) && opModeIsActive() && time.seconds() < 4){
-
-
-            //do anything
-            //we could spit out some telemetry about the encoder value
-        }
-        telemetry.addData("5th", "Hello Driver");    //
-        telemetry.update();
-
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
-        telemetry.addData("6th", "Hello Driver");    //
-        telemetry.update();
-
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
-    public void turnright90 (double speed) {
-        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
-        leftMotor.setTargetPosition(2500);
-        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        leftMotor.setPower(speed);
-
-        ElapsedTime time = new ElapsedTime();
-        time.reset();
-        while ((leftMotor.isBusy()) && opModeIsActive() && time.seconds() < 4){
-
-
-            //do anything
-            //we could spit out some telemetry about the encoder value
-        }
-        telemetry.addData("5th", "Hello Driver");    //
-        telemetry.update();
-
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
-        telemetry.addData("6th", "Hello Driver");    //
-        telemetry.update();
-
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
     public void drive(double speed){
             if (opModeIsActive()){
                 leftMotor.setPower(speed);
                 rightMotor.setPower(speed);
             }
         }
+
     public void driveDistance(double speed, int targetEncoderValue, int times){
             leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -376,43 +323,6 @@ public class vuforiabluecorner extends LinearOpMode {
             leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
-    public void turn(double speed, int Value){
-        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        leftMotor.setTargetPosition(Value);
-        rightMotor.setTargetPosition(-Value);
-
-        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        leftMotor.setPower(speed);
-        rightMotor.setPower(-speed);
-
-
-        while ((leftMotor.isBusy() || rightMotor.isBusy()) && opModeIsActive()){
-            telemetry.addData("Left Loop Current", leftMotor.getCurrentPosition());
-            telemetry.addData("Left Loop Target", leftMotor.getTargetPosition());
-            telemetry.addData("Right Loop Current", rightMotor.getCurrentPosition());
-            telemetry.addData("Right Loop Target", rightMotor.getTargetPosition());  //
-            telemetry.update();
-            telemetry.addData("4th", "Hello Driver");    //
-            telemetry.update();
-
-            //do anything
-            //we could spit out some telemetry about the encoder value
-        }
-        telemetry.addData("5th", "Hello Driver");    //
-        telemetry.update();
-
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
-        telemetry.addData("6th", "Hello Driver");    //
-        telemetry.update();
-
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
 
 
 }

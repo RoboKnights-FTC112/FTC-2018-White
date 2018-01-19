@@ -106,7 +106,7 @@ public class vuforiaredcorner extends LinearOpMode {
             sensorArmR.setPosition(.7);//lower red side arm
             closeClaw();
             sleep(200);
-
+            sensorArmB.setPosition(.9);
             sleep(1500);
             NormalizedRGBA colors = colorSensorR.getNormalizedColors();
                 //color sensor data
@@ -149,14 +149,15 @@ public class vuforiaredcorner extends LinearOpMode {
             sleep(1200);
             int driveForward = 0;
             int turn2Amount = 1250;
-            if (vuforiaM(relicTemplate)==0 && opModeIsActive()) { //LEFT
+            if (vuforiaM(relicTemplate)==2 && opModeIsActive()) { //RIGHT
                 driveForward=3590;//2990
+                turn2Amount = 1270;
             }
             else if (vuforiaM(relicTemplate)==1 && opModeIsActive()) {  //CENTER
                 driveForward=4510;//3910
-                turn2Amount = 1200;
+
             }
-            else if (vuforiaM(relicTemplate)==2 && opModeIsActive()) {  //RIGHT
+            else if (vuforiaM(relicTemplate)==0 && opModeIsActive()) {  //LEFT
                 driveForward=5800;
             }
             else { //MISS
@@ -196,7 +197,6 @@ public class vuforiaredcorner extends LinearOpMode {
         //}
         if (vuMark == RelicRecoveryVuMark.LEFT && opModeIsActive()) {// Test to see if Image is the "LEFT" image and display value.
             return 0;
-
         } else if (vuMark == RelicRecoveryVuMark.CENTER && opModeIsActive()) { // Test to see if Image is the "RIGHT" image and display values.
             return 1;
         } else if (vuMark == RelicRecoveryVuMark.RIGHT && opModeIsActive()) { // Test to see if Image is the "CENTER" image and display values.
