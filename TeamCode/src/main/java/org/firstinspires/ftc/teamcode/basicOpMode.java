@@ -29,7 +29,7 @@ public class GamepadTelemetryTest extends LinearOpMode {
         private float leftStickX = gamepad1.left_stick_x;
 
         while (opModeIsActive()){
-            //check if robot is moving forward & turning left
+            //check if robot is moving forward & turning left or turning right
             if(rightTrigger>0&&leftStickX<0){
                 //set power for non-turning side wheels
                 rearRight.setPower(rightTrigger);
@@ -37,8 +37,30 @@ public class GamepadTelemetryTest extends LinearOpMode {
                 //set power for turning side wheels
                 rearLeft.setPower(rightTrigger-Math.abs(leftStickX));
                 frontLeft.setPower(rightTrigger-Math.abs(leftStickX));
+            } else if(rightTrigger>0&&leftStickX>0){
+                //set power for non-turning side wheels
+                rearLeft.setPower(rightTrigger);
+                frontLeft.setPower(rightTrigger);
+                //set power for turning side wheels
+                rearRight.setPower(rightTrigger-Math.abs(leftStickX));
+                frontRight.setPower(rightTrigger-Math.abs(leftStickX));
             }
 
+            if(rightTrigger<0&&leftStickX<0){
+                //set power for non-turning side wheels
+                rearRight.setPower(-rightTrigger);
+                frontRight.setPower(-rightTrigger);
+                //set power for turning side wheels
+                rearLeft.setPower(-rightTrigger+Math.abs(leftStickX));
+                frontLeft.setPower(-rightTrigger+Math.abs(leftStickX));
+            } else if(rightTrigger<0&&leftStickX>0){
+                //set power for non-turning side wheels
+                rearLeft.setPower(-rightTrigger);
+                frontLeft.setPower(-rightTrigger);
+                //set power for turning side wheels
+                rearRight.setPower(-rightTrigger+Math.abs(leftStickX));
+                frontRight.setPower(-rightTrigger+Math.abs(leftStickX));
+            }
 
         }
 
